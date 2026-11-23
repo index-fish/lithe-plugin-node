@@ -2,14 +2,15 @@
 
 ## 语言服务包
 
-插件不携带自写语言服务器，只打包两个 npm 包：
+插件不携带自写语言服务器，只打包三个 npm 包：
 
 | 包 | 固定版本 | 用途 |
 | --- | --- | --- |
 | `typescript` | 5.9.3 | tsserver 本体 |
 | `typescript-language-server` | 5.1.0 | LSP 前端，node >= 20 |
+| `@xml-tools/language-server` | 1.1.2 | XML 语法诊断，node 运行，不需要 JDK |
 
-版本固定在 `io.github.lithe-idea.node-support/language-server/package.json`，`package-lock.json` 记录每个依赖的来源和 integrity 哈希。`scripts/build-language-server.mjs` 在构建机执行 `npm install --ignore-scripts`，把 `node_modules` 放进插件包，并写出 `versions.json` 记录构建时的 Node 版本和实际解析到的包版本。
+版本固定在 `io.github.lithe-idea.node-support/language-server/package.json`，`package-lock.json` 记录每个依赖的来源和 integrity 哈希。`scripts/build-language-server.mjs` 在构建机执行 `npm install --ignore-scripts`，把 `node_modules` 放进插件包，写出 `versions.json` 记录构建时的 Node 版本和实际解析到的包版本，并把三个包的 LICENSE 复制到 `language-server/licenses/`。
 
 ## 缓存与复用
 
@@ -21,4 +22,4 @@
 
 ## 许可证
 
-`typescript` 与 `typescript-language-server` 均按各自包内许可证分发。打包脚本应在发布前把两者的 LICENSE 文件复制到插件包的 `language-server/licenses/`；当前骨架尚未做这一步，不应直接对外发布。
+`typescript`、`typescript-language-server` 与 `@xml-tools/language-server` 均按各自包内许可证分发（Apache-2.0）。构建脚本会把 LICENSE 复制到插件包的 `language-server/licenses/`，随 ZIP 一起发布。

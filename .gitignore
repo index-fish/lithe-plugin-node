@@ -1,4 +1,5 @@
 node_modules/
+io.github.lithe-idea.node-support/language-server/licenses/
 .build/
 dist/
 *.zip

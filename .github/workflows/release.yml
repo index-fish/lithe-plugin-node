@@ -54,6 +54,6 @@ jobs:
           else
             gh release create "$GITHUB_REF_NAME" \
               dist/*.zip dist/*.zip.sha256 \
-              --title "$GITHUB_REF_NAME - Node/JS/TS 支持" \
-              --notes "自动构建发布：JS/TS/JSX/TSX 语言服务 + npm scripts 运行入口。Node >= 20。已过官方 schema 校验与骨架测试；未在真实 Lithe 宿主端到端验证。"
+              --title "$GITHUB_REF_NAME - Node/JS/TS/XML 支持" \
+              --notes "自动构建发布：JS/TS/JSX/TSX 语言服务 + npm scripts 运行入口 + XML 语法诊断。Node >= 20。已过骨架测试与官方规则复核；未在真实 Lithe 宿主端到端验证。"
           fi

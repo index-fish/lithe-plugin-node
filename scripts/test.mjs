@@ -21,7 +21,11 @@ if (generated !== template) throw new Error("plugin.json is stale; run scripts/r
 const manifest = JSON.parse(generated);
 JSON.parse(readFileSync(join(packageDir, "l10n", "zh-Hans.json"), "utf8"));
 const pinned = JSON.parse(readFileSync(join(packageDir, "language-server", "package.json"), "utf8"));
-if (pinned.dependencies.typescript !== "5.9.3" || pinned.dependencies["typescript-language-server"] !== "5.1.0") {
+if (
+  pinned.dependencies.typescript !== "5.9.3" ||
+  pinned.dependencies["typescript-language-server"] !== "5.1.0" ||
+  pinned.dependencies["@xml-tools/language-server"] !== "1.1.2"
+) {
   throw new Error("language server versions must stay pinned");
 }
 for (const [name, code] of Object.entries(js)) {
@@ -60,5 +64,34 @@ if (!model.tasks.every((task) => task.template === "script")) throw new Error("s
 if (build.id !== "node" || !build.run?.[0]?.fromTasks?.templates?.includes("script")) {
   throw new Error("npm script run entry missing");
 }
-if (manifest.languageServers.length !== 2) throw new Error("JavaScript and TypeScript servers are both required");
+if (manifest.languageServers.length !== 3) {
+  throw new Error("JavaScript, TypeScript and XML servers are all required");
+}
+for (const server of manifest.languageServers) {
+  if (server.launch.kind !== "runtime") throw new Error(`${server.languageID} must use a runtime launch`);
+  if (server.launch.tool !== "node") throw new Error(`${server.languageID} must launch with node`);
+  if (!manifest.requiresTools.includes(server.launch.tool)) {
+    throw new Error(`${server.languageID} launch tool is not declared in requiresTools`);
+  }
+  if ("validationArguments" in server) {
+    throw new Error(`${server.languageID} runtime launch must not carry validationArguments`);
+  }
+  if ("runtimeDependencies" in server) {
+    throw new Error(`${server.languageID} must not repeat the launch runtime as a runtime dependency`);
+  }
+}
+const xmlServer = manifest.languageServers.find((server) => server.languageID === "xml");
+if (!xmlServer) throw new Error("XML language server missing");
+if (xmlServer.launch.entry !== "language-server/node_modules/@xml-tools/language-server/lib/server.js") {
+  throw new Error("XML language server entry is stale");
+}
+if (xmlServer.executesProjectCode !== false) {
+  throw new Error("XML server must declare executesProjectCode: false");
+}
+if (!manifest.languages.some((language) => language.id === "xml")) {
+  throw new Error("XML language declaration missing");
+}
+if (!manifest.activationEvents.includes("onLanguage:xml")) {
+  throw new Error("XML activation event missing");
+}
 process.stdout.write("plugin skeleton checks passed\n");

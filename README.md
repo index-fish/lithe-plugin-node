@@ -1,14 +1,14 @@
 # Node.js Support (Preview) for Lithe
 
-一个声明式 Lithe 插件骨架：给 JavaScript / TypeScript 接上 `typescript-language-server`，并把 `package.json` 里的 scripts 暴露成构建任务和 Run 入口。插件不修改 Lithe 宿主或 Rust Core。
+一个声明式 Lithe 插件：给 JavaScript / TypeScript 接上 `typescript-language-server`，给 XML 接上 `@xml-tools/language-server`，并把 `package.json` 里的 scripts 暴露成构建任务和 Run 入口。插件不修改 Lithe 宿主或 Rust Core。
 
-当前版本：`0.1.3`。已修复宿主安装校验（`requires.languageServers: 1`）；LSP 启动与运行入口仍待更多真机验证。
+当前版本：`0.1.4`。已修复宿主安装校验（`requires.languageServers: 1`）；LSP 启动与运行入口仍待更多真机验证。
 
 ## 能力
 
-- 语言：`js`、`jsx`、`mjs`、`cjs`、`ts`、`tsx`、`mts`、`cts`。语法高亮继续用宿主内置的 TextMate grammar，插件只补语义。
-- 语言服务：Node runtime 启动包内的 `typescript-language-server`，JavaScript 和 TypeScript 各一个 LSP 会话。
-- 工具链：声明 `node` tool definition，支持 PATH、nvm、fnm 等常见位置；可用设置显式指定 node 可执行文件。
+- 语言：`js`、`jsx`、`mjs`、`cjs`、`ts`、`tsx`、`mts`、`cts`，以及 `xml`、`xsd`、`xsl`、`xslt`、`svg` 和常见的 `pom.xml` / `web.xml` / `persistence.xml`。语法高亮继续用宿主内置的 TextMate grammar，插件只补语义。
+- 语言服务：Node runtime 启动包内的 `typescript-language-server`（JavaScript、TypeScript）和 `@xml-tools/language-server`（XML）。XML 服务只做语法诊断，不执行工作区代码。
+- 工具链：声明 `node` tool definition，支持 PATH、nvm、fnm 等常见位置；可用设置显式指定 node 可执行文件。XML 服务复用同一个 Node 运行时，不需要 JDK。
 - 构建与运行：扫描 `package.json` 的 `scripts`，生成 npm script 任务和自动 Run 入口；另提供“Node 文件”和“npm 脚本”两种手动运行配置。
 - 设置：Node 可执行文件、tsserver 内存上限、import 路径样式、package.json 自动导入、参数名与变量类型提示。
 - 翻译：清单文案中英文；英文在 `plugin.json`，中文在 `l10n/zh-Hans.json`。
@@ -35,8 +35,8 @@ node scripts/package.mjs             # 产出 dist/<plugin-id>-<version>.zip 和
 推一个与插件版本一致的 tag 即可自动构建并发布，不需要额外 secret：
 
 ```bash
-git tag v0.1.3
-git push origin v0.1.3
+git tag v0.1.4
+git push origin v0.1.4
 ```
 
 `.github/workflows/release.yml` 会在 tag 推送时校验 tag 与 `plugin.json` 版本一致，依次跑骨架测试、构建期安装语言服务依赖、打包 ZIP，然后用仓库自带的 `GITHUB_TOKEN` 创建 Release 并上传 ZIP 与 sha256。已存在的 Release 会覆盖同名附件。手动触发（workflow_dispatch）只跑构建检查，不发布。
@@ -48,6 +48,7 @@ git push origin v0.1.3
 1. Build 窗口应出现 `npm scripts` 工具窗口，列出脚本任务。
 2. Run 下拉应自动列出每个 npm script。
 3. 打开 `.ts` / `.js` 文件应启动语言服务，补全、跳转和诊断可用。
+4. 打开 `.xml` / `.xsd` / `.svg` 文件应启动 XML 语法诊断；Lithe 桌面端目前已接线的 LSP 呈现主要是诊断。
 
 ## 日志接线
 
@@ -64,6 +65,7 @@ git push origin v0.1.3
 
 ## 已知边界
 
+- XML 目前只有语法诊断，没有 XSD 补全、跳转、格式化；如需完整 XML 语义，后续可换 LemMinX + Java 运行时或更强的 Node XML 服务。
 - 没有断点调试。后续可加 `vscode-js-debug` DAP 适配器。
 - 没有 ESLint / Prettier / Jest / Vitest 集成。
 - 两个语言 ID 会各启动一个 tsserver 会话；后续可评估是否能共享。
