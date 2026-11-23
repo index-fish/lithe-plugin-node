@@ -1,0 +1,372 @@
+{
+  "schemaVersion": 0,
+  "id": "io.github.lithe-idea.node-support",
+  "displayName": "Node.js Support (Preview)",
+  "version": "0.1.0",
+  "pluginAPIVersion": 0,
+  "repository": "https://github.com/Lithe-IDEA/lithe-plugin-node",
+  "requires": {
+    "buildSystems": 0,
+    "languageServers": 0,
+    "languages": 0,
+    "runConfigurationTypes": 0,
+    "settings": 0,
+    "toolDefinitions": 0
+  },
+  "requiresTools": [
+    "node"
+  ],
+  "vendor": {
+    "id": "io.github.lithe-idea",
+    "displayName": "Lithe Community",
+    "signatureRequirement": "none"
+  },
+  "permissions": [
+    "languageServer.launch",
+    "process.build"
+  ],
+  "activationEvents": [
+    "onBuildSystem:node",
+    "onLanguage:javascript",
+    "onLanguage:typescript"
+  ],
+  "languages": [
+    {
+      "id": "javascript",
+      "displayName": "JavaScript",
+      "fileExtensions": ["js", "jsx", "mjs", "cjs"],
+      "projectFileNames": ["package.json"],
+      "dependencies": {
+        "managementFileNames": [
+          "package.json",
+          "package-lock.json",
+          "npm-shrinkwrap.json",
+          "pnpm-lock.yaml",
+          "yarn.lock",
+          "bun.lock",
+          "bun.lockb"
+        ],
+        "projectDependencyPaths": ["node_modules"]
+      },
+      "configuration": {
+        "lineComment": "//",
+        "blockComment": ["/*", "*/"],
+        "brackets": [["{", "}"], ["[", "]"], ["(", ")"], ["`", "`"]],
+        "autoClosingPairs": [["{", "}"], ["[", "]"], ["(", ")"], ["\"", "\""], ["'", "'"], ["`", "`"]]
+      }
+    },
+    {
+      "id": "typescript",
+      "displayName": "TypeScript",
+      "fileExtensions": ["ts", "tsx", "mts", "cts"],
+      "projectFileNames": ["package.json", "tsconfig.json", "jsconfig.json"],
+      "dependencies": {
+        "managementFileNames": [
+          "package.json",
+          "tsconfig.json",
+          "jsconfig.json",
+          "package-lock.json",
+          "npm-shrinkwrap.json",
+          "pnpm-lock.yaml",
+          "yarn.lock",
+          "bun.lock",
+          "bun.lockb"
+        ],
+        "projectDependencyPaths": ["node_modules"]
+      },
+      "configuration": {
+        "lineComment": "//",
+        "blockComment": ["/*", "*/"],
+        "brackets": [["{", "}"], ["[", "]"], ["(", ")"], ["`", "`"]],
+        "autoClosingPairs": [["{", "}"], ["[", "]"], ["(", ")"], ["\"", "\""], ["'", "'"], ["`", "`"]]
+      }
+    }
+  ],
+  "languageServers": [
+    {
+      "languageID": "javascript",
+      "languageIdentifier": "javascript",
+      "launch": {
+        "kind": "runtime",
+        "tool": "node",
+        "minimumVersion": "20",
+        "runtimeArguments": ["--max-old-space-size=${setting:tsServerHeapMB}"],
+        "entry": "language-server/node_modules/typescript-language-server/lib/cli.mjs"
+      },
+      "arguments": ["--stdio"],
+      "validationArguments": ["--version"],
+      "runtimeDependencies": [{ "tool": "node" }],
+      "executesProjectCode": true,
+      "initializationOptions": {
+        "hostInfo": "lithe",
+        "tsserver": {
+          "logDirectory": "${logDir}"
+        }
+      },
+      "workspaceConfiguration": {
+        "javascript": {
+          "preferences": {
+            "importModuleSpecifier": "${setting:importModuleSpecifier}",
+            "includePackageJsonAutoImports": "${setting:includePackageJsonAutoImports}"
+          },
+          "inlayHints": {
+            "parameterNames": { "enabled": "${setting:parameterHints}" },
+            "variableTypes": { "enabled": "${setting:variableTypes}" }
+          }
+        }
+      }
+    },
+    {
+      "languageID": "typescript",
+      "languageIdentifier": "typescript",
+      "launch": {
+        "kind": "runtime",
+        "tool": "node",
+        "minimumVersion": "20",
+        "runtimeArguments": ["--max-old-space-size=${setting:tsServerHeapMB}"],
+        "entry": "language-server/node_modules/typescript-language-server/lib/cli.mjs"
+      },
+      "arguments": ["--stdio"],
+      "validationArguments": ["--version"],
+      "runtimeDependencies": [{ "tool": "node" }],
+      "executesProjectCode": true,
+      "initializationOptions": {
+        "hostInfo": "lithe",
+        "tsserver": {
+          "logDirectory": "${logDir}"
+        }
+      },
+      "workspaceConfiguration": {
+        "typescript": {
+          "preferences": {
+            "importModuleSpecifier": "${setting:importModuleSpecifier}",
+            "includePackageJsonAutoImports": "${setting:includePackageJsonAutoImports}"
+          },
+          "inlayHints": {
+            "parameterNames": { "enabled": "${setting:parameterHints}" },
+            "variableTypes": { "enabled": "${setting:variableTypes}" }
+          }
+        }
+      }
+    }
+  ],
+  "toolDefinitions": [
+    {
+      "id": "node",
+      "displayName": "Node.js",
+      "icon": { "path": "icons/node.svg", "darkPath": "icons/node-dark.svg", "mode": "original" },
+      "executableLayouts": [
+        { "path": "bin/node", "platforms": ["macos", "linux"] },
+        { "path": "node.exe", "platforms": ["windows"] }
+      ],
+      "executables": [
+        { "id": "shell", "kind": "command", "command": "node" }
+      ],
+      "version": {
+        "arguments": ["--version"],
+        "pattern": "v(\\d+(?:\\.\\d+)*)"
+      },
+      "homeLayouts": [
+        { "match": "*", "home": "." }
+      ],
+      "discovery": [
+        { "root": { "kind": "home" }, "pattern": ".nvm/versions/node/*" },
+        { "root": { "kind": "home" }, "pattern": ".local/share/fnm/node-versions/*", "platforms": ["macos", "linux"] },
+        { "root": { "kind": "environment", "variable": "NVM_DIR" }, "pattern": "versions/node/*" },
+        { "root": { "kind": "environment", "variable": "FNM_DIR" }, "pattern": "node-versions/*" }
+      ],
+      "commands": ["node"],
+      "launch": ["${executable}", "${runtimeArguments}", "${entry}", "${arguments}"]
+    }
+  ],
+  "settings": [
+    {
+      "id": "nodeExecutable",
+      "type": "file",
+      "title": "Node.js executable override",
+      "description": "Explicit node executable for language services, npm scripts and Node file runs. Leave empty to use the Toolchains resolution or node on PATH.",
+      "default": "",
+      "effect": "reload",
+      "section": "Node.js toolchain"
+    },
+    {
+      "id": "tsServerHeapMB",
+      "type": "integer",
+      "title": "TypeScript server memory limit",
+      "description": "Upper bound passed to Node for the TypeScript language server.",
+      "default": 2048,
+      "minimum": 512,
+      "maximum": 8192,
+      "unit": "MB",
+      "effect": "reload",
+      "section": "TypeScript language server"
+    },
+    {
+      "id": "importModuleSpecifier",
+      "type": "enum",
+      "title": "Import module specifier",
+      "description": "Preferred path style when the language server adds imports.",
+      "default": "shortest",
+      "effect": "immediate",
+      "section": "TypeScript language server",
+      "options": [
+        { "value": "shortest", "title": "Shortest" },
+        { "value": "shortest-relative", "title": "Shortest relative" },
+        { "value": "relative", "title": "Relative" },
+        { "value": "non-relative", "title": "Non-relative" },
+        { "value": "project-relative", "title": "Project relative" },
+        { "value": "absolute", "title": "Absolute" }
+      ]
+    },
+    {
+      "id": "includePackageJsonAutoImports",
+      "type": "enum",
+      "title": "Package.json auto imports",
+      "description": "Whether package.json dependencies contribute to auto imports.",
+      "default": "auto",
+      "effect": "immediate",
+      "section": "TypeScript language server",
+      "options": [
+        { "value": "auto", "title": "Auto" },
+        { "value": "on", "title": "On" },
+        { "value": "off", "title": "Off" }
+      ]
+    },
+    {
+      "id": "parameterHints",
+      "type": "enum",
+      "title": "Parameter name hints",
+      "description": "Show parameter names inline in call expressions.",
+      "default": "none",
+      "effect": "immediate",
+      "section": "TypeScript language server",
+      "options": [
+        { "value": "none", "title": "Off" },
+        { "value": "literals", "title": "Literals only" },
+        { "value": "all", "title": "All" }
+      ]
+    },
+    {
+      "id": "variableTypes",
+      "type": "enum",
+      "title": "Variable type hints",
+      "description": "Show inferred variable types inline.",
+      "default": "none",
+      "effect": "immediate",
+      "section": "TypeScript language server",
+      "options": [
+        { "value": "none", "title": "Off" },
+        { "value": "literals", "title": "Literals only" },
+        { "value": "all", "title": "All" }
+      ]
+    }
+  ],
+  "buildSystems": [
+    {
+      "id": "node",
+      "displayName": "npm scripts",
+      "icon": { "path": "icons/node.svg", "darkPath": "icons/node-dark.svg", "mode": "original" },
+      "detection": {
+        "markers": ["package.json"],
+        "nesting": "outermost",
+        "priority": 50
+      },
+      "invocation": {
+        "executables": [
+          { "id": "selected", "kind": "setting", "settingID": "nodeExecutable" },
+          { "id": "toolchain", "kind": "toolchain", "toolchainID": "node" },
+          { "id": "runtime", "kind": "runtime", "runtime": "node" }
+        ],
+        "runtimeDependencies": [
+          { "id": "node", "minimumVersion": "20" }
+        ]
+      },
+      "model": {
+        "source": "command",
+        "arguments": ["-e", "const fs=require(\"fs\"),path=require(\"path\"),root=process.cwd();let p={};try{p=JSON.parse(fs.readFileSync(path.join(root,\"package.json\"),\"utf8\"))}catch{}const s=p.scripts||{},id=\"npm:\"+root,project={id,path:\".\",name:p.name||path.basename(root)};const targets=Object.keys(s).map(n=>({id:\"npm.script:\"+n,projectID:id,name:n,path:\".\",tags:[\"script\"],properties:{command:String(s[n])}}));const tasks=Object.keys(s).map(n=>({id:\"npm.task:\"+n,projectID:id,name:n,path:\".\",template:\"script\",group:\"other\",execution:\"task\",properties:{script:n}}));process.stdout.write(JSON.stringify({format:\"litheBuildModel\",version:0,projects:[project],targets,tasks,contentRoots:[],optionValues:{}}));"],
+        "decoder": "litheBuildModel",
+        "executesProjectCode": false,
+        "mayUseNetwork": false
+      },
+      "tasks": [
+        {
+          "id": "install",
+          "displayName": "npm install",
+          "description": "Install declared dependencies with npm.",
+          "group": "lifecycle",
+          "scopes": ["workspace"],
+          "arguments": ["-e", "const{spawnSync}=require(\"child_process\"),r=spawnSync(process.platform===\"win32\"?\"npm.cmd\":\"npm\",[\"install\"].concat(process.argv.slice(1)),{stdio:\"inherit\",shell:process.platform===\"win32\"});process.exit(r.status==null?1:r.status);"]
+        },
+        {
+          "id": "script",
+          "displayName": "npm script",
+          "description": "Template for scripts read from package.json.",
+          "group": "other",
+          "fromModel": true,
+          "arguments": ["-e", "const{spawnSync}=require(\"child_process\"),s=process.argv[1],a=[\"run\",s].concat(process.argv.slice(2)),r=spawnSync(process.platform===\"win32\"?\"npm.cmd\":\"npm\",a,{stdio:\"inherit\",shell:process.platform===\"win32\"});process.exit(r.status==null?1:r.status);", "${task.name}", "${userArguments}"]
+        }
+      ],
+      "run": [
+        {
+          "id": "script",
+          "fromTasks": { "templates": ["script"] },
+          "name": "${task.name}",
+          "arguments": ["-e", "const{spawnSync}=require(\"child_process\"),s=process.argv[1],a=[\"run\",s].concat(process.argv.slice(2)),r=spawnSync(process.platform===\"win32\"?\"npm.cmd\":\"npm\",a,{stdio:\"inherit\",shell:process.platform===\"win32\"});process.exit(r.status==null?1:r.status);", "${task.name}", "${userArguments}"]
+        }
+      ],
+      "runConfigurationTypes": [
+        {
+          "id": "node-file",
+          "displayName": "Node file",
+          "description": "Run a JavaScript or TypeScript entry file with Node.",
+          "icon": { "path": "icons/node-file.svg", "darkPath": "icons/node-file-dark.svg", "mode": "original" },
+          "fields": [
+            {
+              "id": "file",
+              "title": "Entry file",
+              "kind": "file",
+              "required": true
+            },
+            {
+              "id": "nodeArguments",
+              "title": "Node arguments",
+              "kind": "arguments"
+            }
+          ],
+          "arguments": ["${field:file}", "${field:nodeArguments}", "${userArguments}"]
+        },
+        {
+          "id": "npm-script",
+          "displayName": "npm script",
+          "description": "Run a script from package.json with npm.",
+          "icon": { "path": "icons/node-script.svg", "darkPath": "icons/node-script-dark.svg", "mode": "original" },
+          "execution": "task",
+          "fields": [
+            {
+              "id": "script",
+              "title": "Script name",
+              "kind": "text",
+              "placeholder": "dev",
+              "required": true
+            }
+          ],
+          "arguments": ["-e", "const{spawnSync}=require(\"child_process\"),s=process.argv[1],a=[\"run\",s].concat(process.argv.slice(2)),r=spawnSync(process.platform===\"win32\"?\"npm.cmd\":\"npm\",a,{stdio:\"inherit\",shell:process.platform===\"win32\"});process.exit(r.status==null?1:r.status);", "${field:script}", "${userArguments}"]
+        }
+      ],
+      "sync": {
+        "watch": [
+          "package.json",
+          "package-lock.json",
+          "npm-shrinkwrap.json",
+          "pnpm-lock.yaml",
+          "yarn.lock",
+          "bun.lock",
+          "bun.lockb"
+        ]
+      },
+      "layout": {
+        "hiddenDirectoryNames": ["node_modules"]
+      }
+    }
+  ]
+}

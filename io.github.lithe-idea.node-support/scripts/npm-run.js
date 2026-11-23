@@ -1,0 +1,1 @@
+const{spawnSync}=require("child_process"),s=process.argv[1],a=["run",s].concat(process.argv.slice(2)),r=spawnSync(process.platform==="win32"?"npm.cmd":"npm",a,{stdio:"inherit",shell:process.platform==="win32"});process.exit(r.status==null?1:r.status);

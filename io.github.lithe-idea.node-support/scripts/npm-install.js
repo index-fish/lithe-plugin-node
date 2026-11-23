@@ -1,0 +1,1 @@
+const{spawnSync}=require("child_process"),r=spawnSync(process.platform==="win32"?"npm.cmd":"npm",["install"].concat(process.argv.slice(1)),{stdio:"inherit",shell:process.platform==="win32"});process.exit(r.status==null?1:r.status);

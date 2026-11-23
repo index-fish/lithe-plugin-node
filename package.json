@@ -1,0 +1,12 @@
+{
+  "name": "lithe-plugin-node-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Development workspace for the Lithe Node.js support plugin.",
+  "scripts": {
+    "render": "node scripts/render-manifest.mjs",
+    "test": "node scripts/test.mjs",
+    "build:ls": "node scripts/build-language-server.mjs",
+    "package": "node scripts/package.mjs"
+  }
+}

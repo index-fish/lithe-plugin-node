@@ -1,0 +1,75 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Lithe-IDEA/Lithe-core-rust/main/shared/plugins/contract/v1/plugin-l10n.schema.json",
+  "sections": {
+    "Node.js toolchain": "Node.js 工具链",
+    "TypeScript language server": "TypeScript 语言服务"
+  },
+  "settings": {
+    "nodeExecutable": {
+      "title": "Node.js 可执行文件",
+      "description": "用于语言服务、npm 脚本和 Node 文件运行的 node 可执行文件。留空则使用工具链解析结果或 PATH 中的 node。"
+    },
+    "tsServerHeapMB": {
+      "title": "TypeScript 服务内存上限",
+      "description": "传给 TypeScript 语言服务的 Node 最大堆内存。"
+    },
+    "importModuleSpecifier": {
+      "title": "导入模块路径样式",
+      "description": "语言服务自动添加导入时使用的路径样式。",
+      "options": {
+        "shortest": "最短",
+        "shortest-relative": "最短相对路径",
+        "relative": "相对路径",
+        "non-relative": "非相对路径",
+        "project-relative": "项目相对路径",
+        "absolute": "绝对路径"
+      }
+    },
+    "includePackageJsonAutoImports": {
+      "title": "从 package.json 自动导入",
+      "description": "是否让 package.json 中的依赖参与自动导入。",
+      "options": {
+        "auto": "自动",
+        "on": "开启",
+        "off": "关闭"
+      }
+    },
+    "parameterHints": {
+      "title": "参数名提示",
+      "description": "在调用表达式中内联显示参数名。",
+      "options": {
+        "none": "关闭",
+        "literals": "仅字面量",
+        "all": "全部"
+      }
+    },
+    "variableTypes": {
+      "title": "变量类型提示",
+      "description": "在内联位置显示推断出的变量类型。",
+      "options": {
+        "none": "关闭",
+        "literals": "仅字面量",
+        "all": "全部"
+      }
+    }
+  },
+  "runConfigurationTypes": {
+    "node": {
+      "node-file": {
+        "displayName": "Node 文件",
+        "description": "用 Node 运行一个 JavaScript 或 TypeScript 入口文件。",
+        "fields": {
+          "file": { "title": "入口文件" },
+          "nodeArguments": { "title": "Node 参数" }
+        }
+      },
+      "npm-script": {
+        "displayName": "npm 脚本",
+        "description": "用 npm 运行 package.json 中的脚本。",
+        "fields": {
+          "script": { "title": "脚本名称", "placeholder": "dev" }
+        }
+      }
+    }
+  }
+}

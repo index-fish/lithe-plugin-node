@@ -1,0 +1,8 @@
+{
+  "builtWithNode": "v22.22.2",
+  "packages": {
+    "typescript-language-server": "5.1.0",
+    "typescript": "5.9.3"
+  },
+  "entry": "node_modules/typescript-language-server/lib/cli.mjs"
+}

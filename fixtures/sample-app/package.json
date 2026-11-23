@@ -1,0 +1,9 @@
+{
+  "name": "lithe-node-fixture",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node -e \"console.log('dev')\"",
+    "build": "node -e \"console.log('build')\""
+  }
+}
