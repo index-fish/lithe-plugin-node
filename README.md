@@ -43,7 +43,13 @@ git push origin v0.1.4
 
 ## 安装试用
 
-从磁盘安装生成的 ZIP（Lithe：设置 → 插件 → 从磁盘安装）。安装审查应只显示 `node` 运行时、tsserver 包内入口和构建/运行命令。打开一个含 `package.json` 的工程后：
+推荐从第三方插件源安装（与用户实际路径一致）：
+
+1. Lithe：设置 → 插件 → 插件市场 → 打开“插件仓库”对话框。
+2. 粘贴仓库地址 `https://github.com/index-fish/lithe-plugin-node`，点“添加”。仓库根目录的 `lithe-plugin-index.json` 就是插件源索引。
+3. 在插件市场选择刚添加的来源，找到 Node.js Support v0.1.4 安装。
+
+也可以从磁盘安装生成的 ZIP（Lithe：设置 → 插件 → 从磁盘安装）。安装审查应只显示 `node` 运行时、tsserver 包内入口和构建/运行命令。打开一个含 `package.json` 的工程后：
 
 1. Build 窗口应出现 `npm scripts` 工具窗口，列出脚本任务。
 2. Run 下拉应自动列出每个 npm script。
