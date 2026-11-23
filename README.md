@@ -2,7 +2,7 @@
 
 一个声明式 Lithe 插件骨架：给 JavaScript / TypeScript 接上 `typescript-language-server`，并把 `package.json` 里的 scripts 暴露成构建任务和 Run 入口。插件不修改 Lithe 宿主或 Rust Core。
 
-当前版本：`0.1.2`。已修复宿主安装校验（`requires.languageServers: 1`）；LSP 启动与运行入口仍待更多真机验证。
+当前版本：`0.1.3`。已修复宿主安装校验（`requires.languageServers: 1`）；LSP 启动与运行入口仍待更多真机验证。
 
 ## 能力
 
@@ -35,8 +35,8 @@ node scripts/package.mjs             # 产出 dist/<plugin-id>-<version>.zip 和
 推一个与插件版本一致的 tag 即可自动构建并发布，不需要额外 secret：
 
 ```bash
-git tag v0.1.2
-git push origin v0.1.2
+git tag v0.1.3
+git push origin v0.1.3
 ```
 
 `.github/workflows/release.yml` 会在 tag 推送时校验 tag 与 `plugin.json` 版本一致，依次跑骨架测试、构建期安装语言服务依赖、打包 ZIP，然后用仓库自带的 `GITHUB_TOKEN` 创建 Release 并上传 ZIP 与 sha256。已存在的 Release 会覆盖同名附件。手动触发（workflow_dispatch）只跑构建检查，不发布。
