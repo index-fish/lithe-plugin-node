@@ -4,10 +4,10 @@
   "displayName": "Node.js Support (Preview)",
   "version": "0.1.0",
   "pluginAPIVersion": 0,
-  "repository": "https://github.com/Lithe-IDEA/lithe-plugin-node",
+  "repository": "https://github.com/index-fish/lithe-plugin-node",
   "requires": {
     "buildSystems": 0,
-    "languageServers": 0,
+    "languageServers": 1,
     "languages": 0,
     "runConfigurationTypes": 0,
     "settings": 0,
