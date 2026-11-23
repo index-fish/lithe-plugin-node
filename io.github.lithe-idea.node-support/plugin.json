@@ -2,7 +2,7 @@
   "schemaVersion": 0,
   "id": "io.github.lithe-idea.node-support",
   "displayName": "Node.js Support (Preview)",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "pluginAPIVersion": 0,
   "repository": "https://github.com/index-fish/lithe-plugin-node",
   "requires": {
@@ -94,7 +94,6 @@
         "entry": "language-server/node_modules/typescript-language-server/lib/cli.mjs"
       },
       "arguments": ["--stdio"],
-      "validationArguments": ["--version"],
       "runtimeDependencies": [{ "tool": "node" }],
       "executesProjectCode": true,
       "initializationOptions": {
@@ -127,7 +126,6 @@
         "entry": "language-server/node_modules/typescript-language-server/lib/cli.mjs"
       },
       "arguments": ["--stdio"],
-      "validationArguments": ["--version"],
       "runtimeDependencies": [{ "tool": "node" }],
       "executesProjectCode": true,
       "initializationOptions": {
