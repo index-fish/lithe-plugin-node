@@ -30,6 +30,17 @@ node scripts/package.mjs             # 产出 dist/<plugin-id>-<version>.zip 和
 
 `build-language-server.mjs` 会在构建时执行 `npm install`，锁定版本写在 `io.github.lithe-idea.node-support/language-server/package.json` 和 `package-lock.json`。安装后的插件包不再下载任何东西。详见 `docs/build-resources.md`。
 
+## 发布
+
+推一个与插件版本一致的 tag 即可自动构建并发布，不需要额外 secret：
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+`.github/workflows/release.yml` 会在 tag 推送时校验 tag 与 `plugin.json` 版本一致，依次跑骨架测试、构建期安装语言服务依赖、打包 ZIP，然后用仓库自带的 `GITHUB_TOKEN` 创建 Release 并上传 ZIP 与 sha256。已存在的 Release 会覆盖同名附件。手动触发（workflow_dispatch）只跑构建检查，不发布。
+
 ## 安装试用
 
 从磁盘安装生成的 ZIP（Lithe：设置 → 插件 → 从磁盘安装）。安装审查应只显示 `node` 运行时、tsserver 包内入口和构建/运行命令。打开一个含 `package.json` 的工程后：
