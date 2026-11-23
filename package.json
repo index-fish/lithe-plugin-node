@@ -1,7 +1,7 @@
 {
   "name": "lithe-plugin-node-workspace",
   "private": true,
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Development workspace for the Lithe Node.js / XML support plugin.",
   "scripts": {
     "render": "node scripts/render-manifest.mjs",

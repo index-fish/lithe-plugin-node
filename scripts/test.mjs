@@ -46,7 +46,13 @@ if (!hasCode(build.tasks.find((task) => task.id === "install"), js.install)) {
 if (!hasCode(build.tasks.find((task) => task.id === "script"), js.run)) {
   throw new Error("npm script template is stale in plugin.json");
 }
-if (!hasCode(build.run[0], js.run)) throw new Error("run entry is stale in plugin.json");
+// Core: a fromTasks run entry inherits the task's arguments and must not
+// restate them (validation error: "Task run entries reuse the task's arguments.").
+for (const run of build.run) {
+  if (run.fromTasks && "arguments" in run) {
+    throw new Error(`${run.id} fromTasks run must not declare arguments`);
+  }
+}
 if (generated.includes("@@")) throw new Error("unreplaced placeholder in plugin.json");
 for (const icon of ["node.svg", "node-dark.svg", "node-file.svg", "node-file-dark.svg", "node-script.svg", "node-script-dark.svg"]) {
   if (!existsSync(join(packageDir, "icons", icon))) throw new Error(`missing icon ${icon}`);

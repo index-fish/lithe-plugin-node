@@ -2,7 +2,7 @@
   "schemaVersion": 0,
   "id": "io.github.lithe-idea.node-support",
   "displayName": "Node.js / XML Support (Preview)",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "pluginAPIVersion": 0,
   "repository": "https://github.com/index-fish/lithe-plugin-node",
   "requires": {
@@ -333,8 +333,7 @@
         {
           "id": "script",
           "fromTasks": { "templates": ["script"] },
-          "name": "${task.name}",
-          "arguments": ["-e", "@@NPM_RUN_JS@@", "${task.name}", "${userArguments}"]
+          "name": "${task.name}"
         }
       ],
       "runConfigurationTypes": [

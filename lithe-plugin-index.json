@@ -23,7 +23,7 @@
       "icon": "https://raw.githubusercontent.com/index-fish/lithe-plugin-node/887ecd328c8bdc341b412006092292030d1fb0d5/io.github.lithe-idea.node-support/icons/node.svg",
       "versions": [
         {
-          "version": "0.1.4",
+          "version": "0.1.5",
           "pluginAPIVersion": 0,
           "requires": {
             "buildSystems": 0,
@@ -42,8 +42,8 @@
                 "windows-arm64",
                 "windows-x64"
               ],
-              "downloadURL": "https://github.com/index-fish/lithe-plugin-node/releases/download/v0.1.4/io.github.lithe-idea.node-support-0.1.4.zip",
-              "sha256": "732b5a3471f31dcba5177870e0f3988e2f211a28c75eea82f6821294eeaa7f2a"
+              "downloadURL": "https://github.com/index-fish/lithe-plugin-node/releases/download/v0.1.5/io.github.lithe-idea.node-support-0.1.5.zip",
+              "sha256": "31e3957c6482b32985dc452edc969a6a599fa4d9eebc97018066367ff7ca8818"
             }
           ]
         }

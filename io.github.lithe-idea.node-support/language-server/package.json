@@ -1,7 +1,7 @@
 {
   "name": "lithe-node-language-server",
   "private": true,
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Pinned TypeScript and XML language server bundle for the Lithe Node.js / XML plugin.",
   "license": "Apache-2.0",
   "dependencies": {
