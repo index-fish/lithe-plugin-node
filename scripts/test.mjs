@@ -56,6 +56,11 @@ for (const run of build.run) {
 if (generated.includes("@@")) throw new Error("unreplaced placeholder in plugin.json");
 for (const icon of ["node.svg", "node-dark.svg", "node-file.svg", "node-file-dark.svg", "node-script.svg", "node-script-dark.svg"]) {
   if (!existsSync(join(packageDir, "icons", icon))) throw new Error(`missing icon ${icon}`);
+  // Lithe's icon renderer rejects <text>; a rejected plugin icon shows a wrong
+  // placeholder. Icons must be pure path/shape geometry.
+  if (/<text\b/i.test(readFileSync(join(packageDir, "icons", icon), "utf8"))) {
+    throw new Error(`icon ${icon} contains an unsupported <text> element`);
+  }
 }
 const result = spawnSync(process.execPath, ["-e", js.model], {
   cwd: join(root, "fixtures", "sample-app"),
@@ -84,6 +89,17 @@ for (const server of manifest.languageServers) {
   }
   if ("runtimeDependencies" in server) {
     throw new Error(`${server.languageID} must not repeat the launch runtime as a runtime dependency`);
+  }
+  // Pin the bundled TS 5.9.3. Without tsserver.path, typescript-language-server
+  // prefers the workspace's TypeScript (e.g. an old 4.8.2), which indexes a
+  // large project slowly and lets completion requests hit the host's 30s
+  // timeout ("Late language-server response ignored").
+  const tsPath = server.initializationOptions?.tsserver?.path;
+  if (tsPath !== "${pluginDir}/language-server/node_modules/typescript/lib/tsserver.js") {
+    throw new Error(`${server.languageID} must pin the bundled tsserver via initializationOptions.tsserver.path`);
+  }
+  if (!existsSync(join(packageDir, "language-server/node_modules/typescript/lib/tsserver.js"))) {
+    throw new Error("bundled tsserver.js missing; run npm run build:ls");
   }
 }
 // XML lives in its own plugin now.

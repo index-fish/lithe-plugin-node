@@ -11,7 +11,7 @@
 
 ## Node.js Support
 
-当前版本：`0.1.6`。
+当前版本：`0.1.7`。
 
 - 语言：`js`、`jsx`、`mjs`、`cjs`、`ts`、`tsx`、`mts`、`cts`。语法高亮用宿主内置 TextMate grammar，插件只补语义。
 - 语言服务：Node runtime 启动包内 `typescript-language-server`（JavaScript、TypeScript 各一个会话）。
@@ -61,7 +61,7 @@ npm run package    # 产出 dist/<plugin-id>-<version>.zip 和 sha256
 用带插件前缀的 tag 触发，tag 里的版本必须与对应插件的 `plugin.json` 一致：
 
 ```bash
-git tag node-v0.1.6 && git push origin node-v0.1.6   # 只发 Node 插件
+git tag node-v0.1.7 && git push origin node-v0.1.7   # 只发 Node 插件
 git tag xml-v0.1.0  && git push origin xml-v0.1.0    # 只发 XML 插件
 ```
 
