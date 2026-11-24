@@ -266,12 +266,11 @@
       "icon": "https://raw.githubusercontent.com/index-fish/lithe-plugin-node/HEAD/io.github.lithe-idea.sql-support/icons/sql.svg",
       "versions": [
         {
-          "version": "0.1.0",
+          "version": "0.1.1",
           "pluginAPIVersion": 0,
           "requires": {
             "languages": 0,
             "languageServers": 1,
-            "settings": 0,
             "toolDefinitions": 0
           },
           "releaseDate": "2026-11-24",
@@ -283,8 +282,8 @@
                 "windows-arm64",
                 "windows-x64"
               ],
-              "downloadURL": "https://github.com/index-fish/lithe-plugin-node/releases/download/sql-v0.1.0/io.github.lithe-idea.sql-support-0.1.0.zip",
-              "sha256": "925cb04d95e9e1660e3a44957e6bba0b53b1a518e39bbf42cd154746533ea0ff"
+              "downloadURL": "https://github.com/index-fish/lithe-plugin-node/releases/download/sql-v0.1.1/io.github.lithe-idea.sql-support-0.1.1.zip",
+              "sha256": "cf719365928596a117085b412d20787ab3ea9af7aa77ac30bbb4b5dcea0f4e8a"
             }
           ]
         }
