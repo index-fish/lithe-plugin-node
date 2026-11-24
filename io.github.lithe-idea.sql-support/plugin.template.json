@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 0,
+  "id": "io.github.lithe-idea.sql-support",
+  "displayName": "SQL Support (Lithe SQL)",
+  "version": "0.1.0",
+  "pluginAPIVersion": 0,
+  "repository": "https://github.com/index-fish/lithe-plugin-node",
+  "requires": {
+    "languages": 0,
+    "languageServers": 1,
+    "settings": 0,
+    "toolDefinitions": 0
+  },
+  "requiresTools": [
+    "io.github.lithe-idea.sql-support:node"
+  ],
+  "vendor": {
+    "id": "io.github.lithe-idea",
+    "displayName": "Lithe Community",
+    "signatureRequirement": "none"
+  },
+  "permissions": [
+    "languageServer.launch"
+  ],
+  "activationEvents": [
+    "onLanguage:sql"
+  ],
+  "languages": [
+    {
+      "id": "sql",
+      "displayName": "SQL",
+      "fileExtensions": ["sql", "ddl", "dml", "mysql", "pgsql", "sqlite", "sqlite3"],
+      "configuration": {
+        "lineComment": "--",
+        "blockComment": ["/*", "*/"],
+        "brackets": [["(", ")"], ["[", "]"]],
+        "autoClosingPairs": [["(", ")"], ["[", "]"], ["'", "'"], ["\"", "\""], ["`", "`"]]
+      }
+    }
+  ],
+  "languageServers": [
+    {
+      "languageID": "sql",
+      "languageIdentifier": "sql",
+      "launch": {
+        "kind": "runtime",
+        "tool": "io.github.lithe-idea.sql-support:node",
+        "minimumVersion": "20",
+        "entry": "language-server/server.mjs"
+      },
+      "arguments": [],
+      "initializationOptions": {
+        "hostInfo": "lithe"
+      }
+    }
+  ],
+  "toolDefinitions": [
+    {
+      "id": "io.github.lithe-idea.sql-support:node",
+      "displayName": "Node.js (for SQL language server)",
+      "icon": {
+        "path": "icons/sql.svg",
+        "darkPath": "icons/sql-dark.svg",
+        "mode": "original"
+      },
+      "executableLayouts": [
+        { "path": "bin/node", "platforms": ["macos", "linux"] },
+        { "path": "node.exe", "platforms": ["windows"] }
+      ],
+      "executables": [
+        { "id": "shell", "kind": "command", "command": "node" }
+      ],
+      "version": {
+        "arguments": ["--version"],
+        "pattern": "v(\\d+(?:\\.\\d+)*)"
+      },
+      "homeLayouts": [
+        { "match": "*", "home": "." }
+      ],
+      "discovery": [
+        { "root": { "kind": "home" }, "pattern": ".nvm/versions/node/*" },
+        { "root": { "kind": "home" }, "pattern": ".local/share/fnm/node-versions/*", "platforms": ["macos", "linux"] },
+        { "root": { "kind": "environment", "variable": "NVM_DIR" }, "pattern": "versions/node/*" },
+        { "root": { "kind": "environment", "variable": "FNM_DIR" }, "pattern": "node-versions/*" }
+      ],
+      "commands": ["node"],
+      "launch": ["${executable}", "${entry}", "${arguments}"]
+    }
+  ]
+}

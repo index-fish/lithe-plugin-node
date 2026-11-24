@@ -1,13 +1,14 @@
-# Lithe 插件：Node.js Support + XML Support
+# Lithe 插件：Node.js Support + XML Support + SQL Support
 
-这个仓库提供两个独立的声明式 Lithe 插件，共用一套构建与发布流程：
+这个仓库提供三个独立的声明式 Lithe 插件，共用一套构建与发布流程：
 
 | 插件 ID | 作用 | 运行时依赖 |
 | --- | --- | --- |
 | `io.github.lithe-idea.node-support` | JavaScript / TypeScript 语言服务 + npm scripts 构建/运行入口 | Node.js >= 20 |
 | `io.github.lithe-idea.xml-support` | XML / XSD / XSL / SVG 的完整语言服务（LemMinX） | Java >= 11 |
+| `io.github.lithe-idea.sql-support` | SQL 补全、诊断、悬停、格式化、文档大纲（零依赖轻量服务器） | Node.js >= 20 |
 
-插件不修改 Lithe 宿主或 Rust Core。两个插件各自独立版本、独立 Release、独立安装。
+插件不修改 Lithe 宿主或 Rust Core。三个插件各自独立版本、独立 Release、独立安装。
 
 ## Node.js Support
 
@@ -35,22 +36,35 @@
 
 前置条件：本机 Java >= 11（LemMinX 0.31.2 的编译目标）。JDK/JRE 均可，不需要 Maven。
 
+## SQL Support（Lithe SQL）
+
+当前版本：`0.1.0`。
+
+- 语言：`sql`、`ddl`、`dml`、`mysql`、`pgsql`、`sqlite`、`sqlite3`。
+- 语言服务：包内自带零依赖 Node 服务器 `language-server/server.mjs`，不下载任何东西、不执行工作区代码、不连数据库。
+- 补全：SQL 关键字、常用函数、数据类型，加上当前文档里出现的表名 / CTE / 别名 / 列名；按已输入前缀过滤排序，并给每个候选项带覆盖前缀的 `textEdit`，避免 Lithe 宿主不按前缀过滤、不做默认替换导致选 `const` 变成 `consconst` 那类问题。
+- 上下文：在 `FROM` / `JOIN` / `UPDATE` 后优先表名，在 `SELECT` / `WHERE` / `ON` / `SET` 后优先列名；`alias.` 后只列当前文档里该别名下的列。
+- 其他：语法诊断（括号/引号未闭合）、关键字与函数悬停、关键字大写与子句换行格式化、文档大纲（表/CTE）。
+- 工具链：声明限定 ID `io.github.lithe-idea.sql-support:node` 的 Node 定义，支持 PATH、nvm、fnm。
+
+前置条件：Node.js >= 20。定位是**离线 SQL 编辑辅助**，不提供数据库连接后的真实 schema 补全，也不做跨文件符号解析。
+
 ## 安装
 
 推荐从第三方插件源安装：
 
 1. Lithe：设置 → 插件 → 插件市场 → 打开“插件仓库”对话框。
-2. 粘贴 `https://github.com/index-fish/lithe-plugin-node`，点“添加”。仓库根目录的 `lithe-plugin-index.json` 是插件源索引，里面有两个插件条目。
-3. 在插件市场选择该来源，按需安装 Node.js Support 和/或 XML Support。
+2. 粘贴 `https://github.com/index-fish/lithe-plugin-node`，点“添加”。仓库根目录的 `lithe-plugin-index.json` 是插件源索引，里面有三个插件条目。
+3. 在插件市场选择该来源，按需安装 Node.js Support、XML Support 和/或 SQL Support。
 
 也可从磁盘安装 `dist/` 里的 ZIP（设置 → 插件 → 从磁盘安装）。
 
 ## 构建
 
 ```bash
-npm run render     # 从 template + scripts 生成两个 plugin.json
+npm run render     # 从 template + scripts 生成三个 plugin.json
 npm run build:ls   # 构建期安装 TS 语言服务、下载并校验 LemMinX jar
-npm run test       # 两个插件的骨架检查 + Node fixture 模型测试
+npm run test       # 三个插件的骨架检查 + Node fixture 模型测试
 npm run package    # 产出 dist/<plugin-id>-<version>.zip 和 sha256
 ```
 
@@ -63,6 +77,7 @@ npm run package    # 产出 dist/<plugin-id>-<version>.zip 和 sha256
 ```bash
 git tag node-v0.1.10 && git push origin node-v0.1.10  # 只发 Node 插件
 git tag xml-v0.1.0  && git push origin xml-v0.1.0    # 只发 XML 插件
+git tag sql-v0.1.0  && git push origin sql-v0.1.0    # 只发 SQL 插件
 ```
 
 `.github/workflows/release.yml` 校验 tag 与版本一致，构建、测试、打包后创建对应 Release 并上传 ZIP 与 sha256。索引 `lithe-plugin-index.json` 在发布后手工更新到新的版本与 GitHub 权威 SHA-256。
@@ -79,4 +94,5 @@ git tag xml-v0.1.0  && git push origin xml-v0.1.0    # 只发 XML 插件
 - 两个语言 ID 会各启动一个 tsserver 会话。
 - 为避免补全卡死，`includeCompletionsForModuleExports` 设为 `false`（在 `initializationOptions.preferences` 和 `workspaceConfiguration.<lang>.preferences` 两处都带上）：在含大量未解析裸模块 import（如 `svr-api/*`）的项目里，tsserver 收集模块导出符号会让标识符补全永久挂起。关闭后，标识符与关键字补全正常，但 `import` 语句里的模块导出补全需手动触发或依赖路径补全。
 - Lithe 的补全弹窗原样显示 LSP 返回的列表，不做前缀过滤；tsserver 对 invoked 补全返回全集并期望客户端收窄。Node 插件因此通过 `language-server/proxy.mjs` 在 stdio 层拦截补全响应：按当前标识符过滤+排序候选项，并为不带 `textEdit` 的项补上替换范围（否则输入 `cons` 选 `const` 会变成 `consconst`）。代理只改补全响应，其余 LSP 消息原样透传。
+- SQL 插件是离线辅助：不连数据库、没有真实 schema 补全、不做跨文件符号解析；补全用的表/列信息来自当前打开的文档。格式化是关键字大写 + 子句换行的轻量实现，不是完整 SQL beautifier。
 - Windows、Linux 的宿主机端到端行为尚未验证。

@@ -5,6 +5,7 @@ on:
     tags:
       - "node-v*"
       - "xml-v*"
+      - "sql-v*"
   workflow_dispatch:
 
 permissions:
@@ -34,6 +35,7 @@ jobs:
           case "$tag" in
             node-v*) echo "plugin=node" >> "$GITHUB_OUTPUT"; echo "version=${tag#node-v}" >> "$GITHUB_OUTPUT" ;;
             xml-v*)  echo "plugin=xml"  >> "$GITHUB_OUTPUT"; echo "version=${tag#xml-v}"  >> "$GITHUB_OUTPUT" ;;
+            sql-v*)  echo "plugin=sql"  >> "$GITHUB_OUTPUT"; echo "version=${tag#sql-v}"  >> "$GITHUB_OUTPUT" ;;
             *) echo "Unsupported tag prefix: $tag" >&2; exit 1 ;;
           esac
 
@@ -43,6 +45,7 @@ jobs:
           case "${{ steps.target.outputs.plugin }}" in
             node) dir=io.github.lithe-idea.node-support ;;
             xml)  dir=io.github.lithe-idea.xml-support ;;
+            sql)  dir=io.github.lithe-idea.sql-support ;;
           esac
           version="$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['version'])" "$dir/plugin.json")"
           want="${{ steps.target.outputs.version }}"
@@ -76,6 +79,11 @@ jobs:
               dir=io.github.lithe-idea.xml-support
               title="XML Support (LemMinX)"
               notes="XML/XSD/XSL/SVG support via Eclipse LemMinX: syntax + XSD validation, completion, formatting, hover, document symbols, folding, rename, document links. Requires Java 11+ (discovered via Toolchains)."
+              ;;
+            sql)
+              dir=io.github.lithe-idea.sql-support
+              title="SQL Support (Lithe SQL)"
+              notes="Zero-dependency SQL language server: prefix-filtered keyword/function/type completion, table and column completion from the open document, hover, formatting, document symbols and syntax diagnostics. Requires Node.js 20 or newer."
               ;;
           esac
           version="$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['version'])" "$dir/plugin.json")"

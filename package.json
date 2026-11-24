@@ -2,10 +2,10 @@
   "name": "lithe-plugins-workspace",
   "private": true,
   "version": "0.1.0",
-  "description": "Development workspace for the Lithe Node.js and XML support plugins.",
+  "description": "Development workspace for the Lithe Node.js, XML and SQL support plugins.",
   "scripts": {
     "render": "node scripts/render-manifest.mjs",
-    "test": "node scripts/test.mjs && node scripts/test-xml.mjs",
+    "test": "node scripts/test.mjs && node scripts/test-xml.mjs && node scripts/test-sql.mjs",
     "build:ls": "node scripts/build-language-server.mjs && node scripts/build-xml-server.mjs",
     "package": "node scripts/package.mjs"
   }

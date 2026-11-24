@@ -8,6 +8,7 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const packageDirs = [
   join(root, "io.github.lithe-idea.node-support"),
   join(root, "io.github.lithe-idea.xml-support"),
+  join(root, "io.github.lithe-idea.sql-support"),
 ];
 const stageRoot = join(root, ".build", "package");
 const dist = join(root, "dist");

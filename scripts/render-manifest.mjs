@@ -26,4 +26,11 @@ writeFileSync(
   readFileSync(join(xmlDir, "plugin.template.json"), "utf8"),
 );
 
-process.stdout.write("rendered plugin.json for node and xml plugins\n");
+// SQL plugin: zero-dependency server, template is the manifest.
+const sqlDir = join(root, "io.github.lithe-idea.sql-support");
+writeFileSync(
+  join(sqlDir, "plugin.json"),
+  readFileSync(join(sqlDir, "plugin.template.json"), "utf8"),
+);
+
+process.stdout.write("rendered plugin.json for node, xml and sql plugins\n");
