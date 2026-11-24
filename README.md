@@ -61,7 +61,7 @@ npm run package    # 产出 dist/<plugin-id>-<version>.zip 和 sha256
 用带插件前缀的 tag 触发，tag 里的版本必须与对应插件的 `plugin.json` 一致：
 
 ```bash
-git tag node-v0.1.9 && git push origin node-v0.1.9   # 只发 Node 插件
+git tag node-v0.1.10 && git push origin node-v0.1.10  # 只发 Node 插件
 git tag xml-v0.1.0  && git push origin xml-v0.1.0    # 只发 XML 插件
 ```
 
@@ -78,4 +78,5 @@ git tag xml-v0.1.0  && git push origin xml-v0.1.0    # 只发 XML 插件
 - Node 插件没有 ESLint / Prettier / Jest / Vitest 集成，也没有 pnpm / yarn / bun 自动切换。
 - 两个语言 ID 会各启动一个 tsserver 会话。
 - 为避免补全卡死，`includeCompletionsForModuleExports` 设为 `false`（在 `initializationOptions.preferences` 和 `workspaceConfiguration.<lang>.preferences` 两处都带上）：在含大量未解析裸模块 import（如 `svr-api/*`）的项目里，tsserver 收集模块导出符号会让标识符补全永久挂起。关闭后，标识符与关键字补全正常，但 `import` 语句里的模块导出补全需手动触发或依赖路径补全。
+- Lithe 的补全弹窗原样显示 LSP 返回的列表，不做前缀过滤；tsserver 对 invoked 补全返回全集并期望客户端收窄。Node 插件因此通过 `language-server/proxy.mjs` 在 stdio 层拦截补全响应：按当前标识符过滤+排序候选项，并为不带 `textEdit` 的项补上替换范围（否则输入 `cons` 选 `const` 会变成 `consconst`）。代理只改补全响应，其余 LSP 消息原样透传。
 - Windows、Linux 的宿主机端到端行为尚未验证。

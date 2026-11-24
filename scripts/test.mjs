@@ -111,10 +111,60 @@ for (const server of manifest.languageServers) {
   if (wsPrefs?.includeCompletionsForModuleExports !== false) {
     throw new Error(`${server.languageID} workspaceConfiguration.preferences must also disable includeCompletionsForModuleExports`);
   }
+  // The host renders the raw LSP completion list without filtering by the word
+  // being typed, so the server is launched through a stdio proxy that narrows and
+  // sorts completion items for the current prefix.
+  if (server.launch.entry !== "language-server/proxy.mjs") {
+    throw new Error(`${server.languageID} must launch through language-server/proxy.mjs`);
+  }
+  if (!existsSync(join(packageDir, "language-server/proxy.mjs"))) {
+    throw new Error("completion proxy missing");
+  }
+  if (!existsSync(join(packageDir, "language-server/completion-filter.mjs"))) {
+    throw new Error("completion filter missing");
+  }
   if (!existsSync(join(packageDir, "language-server/node_modules/typescript/lib/tsserver.js"))) {
     throw new Error("bundled tsserver.js missing; run npm run build:ls");
   }
 }
+// Exercise the client-side completion filter directly: the reported failure was
+// typing `cons` showing _APIURL/_HOST instead of console/const.
+const { wordPrefixBefore, applyContentChanges, filterCompletionResult } = await import(
+  `file://${join(packageDir, "language-server", "completion-filter.mjs")}`
+);
+if (wordPrefixBefore("    cons", 0, 8) !== "cons") throw new Error("word prefix extraction failed");
+if (wordPrefixBefore("    // co", 0, 9) !== "co") throw new Error("word prefix should include non-space run");
+if (wordPrefixBefore("foo.bar", 0, 4) !== "") throw new Error("word prefix must not include dot");
+const changed = applyContentChanges("abc", [
+  { range: { start: { line: 0, character: 1 }, end: { line: 0, character: 2 } }, text: "X" },
+]);
+if (changed !== "aXc") throw new Error("content change application failed");
+const rawItems = ["_APIURL", "_HOST", "_main", "arguments", "console", "const", "ConstantSourceNode"]
+  .map((label) => ({ label }));
+const narrowed = filterCompletionResult({ items: rawItems, isIncomplete: false }, "cons");
+if (!Array.isArray(narrowed.items) || narrowed.items.length !== 3) {
+  throw new Error("completion filter did not keep the three cons-prefixed items");
+}
+if (narrowed.items.map((item) => item.label).join(",") !== "console,const,ConstantSourceNode") {
+  throw new Error("completion filter ordering failed: " + narrowed.items.map((item) => item.label).join(","));
+}
+// tsserver sends plain items with no textEdit; without one Lithe inserts the
+// label at the caret and `cons` + `const` becomes `consconst`. The filter must
+// add a textEdit replacing the typed prefix.
+const replacementItems = filterCompletionResult(
+  { items: [{ label: "const" }, { label: "console" }], isIncomplete: false },
+  "cons",
+  { line: 1, character: 8 },
+).items;
+for (const item of replacementItems) {
+  const edit = item.textEdit;
+  if (!edit || edit.newText !== item.label) throw new Error("completion item is missing replacement textEdit");
+  if (edit.range.start.line !== 1 || edit.range.start.character !== 4 || edit.range.end.character !== 8) {
+    throw new Error("completion textEdit must replace the typed prefix: " + JSON.stringify(edit.range));
+  }
+}
+const passthrough = filterCompletionResult(rawItems, "");
+if (passthrough !== rawItems) throw new Error("empty-prefix completion must pass through unchanged");
 // XML lives in its own plugin now.
 if (manifest.languages.some((language) => language.id === "xml")) {
   throw new Error("XML language must be removed from the Node plugin");

@@ -2,7 +2,7 @@
   "schemaVersion": 0,
   "id": "io.github.lithe-idea.node-support",
   "displayName": "Node.js Support (Preview)",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "pluginAPIVersion": 0,
   "repository": "https://github.com/index-fish/lithe-plugin-node",
   "requires": {
@@ -34,8 +34,15 @@
     {
       "id": "javascript",
       "displayName": "JavaScript",
-      "fileExtensions": ["js", "jsx", "mjs", "cjs"],
-      "projectFileNames": ["package.json"],
+      "fileExtensions": [
+        "js",
+        "jsx",
+        "mjs",
+        "cjs"
+      ],
+      "projectFileNames": [
+        "package.json"
+      ],
       "dependencies": {
         "managementFileNames": [
           "package.json",
@@ -46,20 +53,76 @@
           "bun.lock",
           "bun.lockb"
         ],
-        "projectDependencyPaths": ["node_modules"]
+        "projectDependencyPaths": [
+          "node_modules"
+        ]
       },
       "configuration": {
         "lineComment": "//",
-        "blockComment": ["/*", "*/"],
-        "brackets": [["{", "}"], ["[", "]"], ["(", ")"], ["`", "`"]],
-        "autoClosingPairs": [["{", "}"], ["[", "]"], ["(", ")"], ["\"", "\""], ["'", "'"], ["`", "`"]]
+        "blockComment": [
+          "/*",
+          "*/"
+        ],
+        "brackets": [
+          [
+            "{",
+            "}"
+          ],
+          [
+            "[",
+            "]"
+          ],
+          [
+            "(",
+            ")"
+          ],
+          [
+            "`",
+            "`"
+          ]
+        ],
+        "autoClosingPairs": [
+          [
+            "{",
+            "}"
+          ],
+          [
+            "[",
+            "]"
+          ],
+          [
+            "(",
+            ")"
+          ],
+          [
+            "\"",
+            "\""
+          ],
+          [
+            "'",
+            "'"
+          ],
+          [
+            "`",
+            "`"
+          ]
+        ]
       }
     },
     {
       "id": "typescript",
       "displayName": "TypeScript",
-      "fileExtensions": ["ts", "tsx", "mts", "cts"],
-      "projectFileNames": ["package.json", "tsconfig.json", "jsconfig.json"],
+      "fileExtensions": [
+        "ts",
+        "tsx",
+        "mts",
+        "cts"
+      ],
+      "projectFileNames": [
+        "package.json",
+        "tsconfig.json",
+        "jsconfig.json"
+      ],
       "dependencies": {
         "managementFileNames": [
           "package.json",
@@ -72,13 +135,60 @@
           "bun.lock",
           "bun.lockb"
         ],
-        "projectDependencyPaths": ["node_modules"]
+        "projectDependencyPaths": [
+          "node_modules"
+        ]
       },
       "configuration": {
         "lineComment": "//",
-        "blockComment": ["/*", "*/"],
-        "brackets": [["{", "}"], ["[", "]"], ["(", ")"], ["`", "`"]],
-        "autoClosingPairs": [["{", "}"], ["[", "]"], ["(", ")"], ["\"", "\""], ["'", "'"], ["`", "`"]]
+        "blockComment": [
+          "/*",
+          "*/"
+        ],
+        "brackets": [
+          [
+            "{",
+            "}"
+          ],
+          [
+            "[",
+            "]"
+          ],
+          [
+            "(",
+            ")"
+          ],
+          [
+            "`",
+            "`"
+          ]
+        ],
+        "autoClosingPairs": [
+          [
+            "{",
+            "}"
+          ],
+          [
+            "[",
+            "]"
+          ],
+          [
+            "(",
+            ")"
+          ],
+          [
+            "\"",
+            "\""
+          ],
+          [
+            "'",
+            "'"
+          ],
+          [
+            "`",
+            "`"
+          ]
+        ]
       }
     }
   ],
@@ -90,10 +200,14 @@
         "kind": "runtime",
         "tool": "node",
         "minimumVersion": "20",
-        "runtimeArguments": ["--max-old-space-size=${setting:tsServerHeapMB}"],
-        "entry": "language-server/node_modules/typescript-language-server/lib/cli.mjs"
+        "runtimeArguments": [
+          "--max-old-space-size=${setting:tsServerHeapMB}"
+        ],
+        "entry": "language-server/proxy.mjs"
       },
-      "arguments": ["--stdio"],
+      "arguments": [
+        "--stdio"
+      ],
       "executesProjectCode": true,
       "initializationOptions": {
         "hostInfo": "lithe",
@@ -113,8 +227,12 @@
             "includeCompletionsForModuleExports": false
           },
           "inlayHints": {
-            "parameterNames": { "enabled": "${setting:parameterHints}" },
-            "variableTypes": { "enabled": "${setting:variableTypes}" }
+            "parameterNames": {
+              "enabled": "${setting:parameterHints}"
+            },
+            "variableTypes": {
+              "enabled": "${setting:variableTypes}"
+            }
           }
         }
       }
@@ -126,10 +244,14 @@
         "kind": "runtime",
         "tool": "node",
         "minimumVersion": "20",
-        "runtimeArguments": ["--max-old-space-size=${setting:tsServerHeapMB}"],
-        "entry": "language-server/node_modules/typescript-language-server/lib/cli.mjs"
+        "runtimeArguments": [
+          "--max-old-space-size=${setting:tsServerHeapMB}"
+        ],
+        "entry": "language-server/proxy.mjs"
       },
-      "arguments": ["--stdio"],
+      "arguments": [
+        "--stdio"
+      ],
       "executesProjectCode": true,
       "initializationOptions": {
         "hostInfo": "lithe",
@@ -149,8 +271,12 @@
             "includeCompletionsForModuleExports": false
           },
           "inlayHints": {
-            "parameterNames": { "enabled": "${setting:parameterHints}" },
-            "variableTypes": { "enabled": "${setting:variableTypes}" }
+            "parameterNames": {
+              "enabled": "${setting:parameterHints}"
+            },
+            "variableTypes": {
+              "enabled": "${setting:variableTypes}"
+            }
           }
         }
       }
@@ -160,29 +286,86 @@
     {
       "id": "node",
       "displayName": "Node.js",
-      "icon": { "path": "icons/node.svg", "darkPath": "icons/node-dark.svg", "mode": "original" },
+      "icon": {
+        "path": "icons/node.svg",
+        "darkPath": "icons/node-dark.svg",
+        "mode": "original"
+      },
       "executableLayouts": [
-        { "path": "bin/node", "platforms": ["macos", "linux"] },
-        { "path": "node.exe", "platforms": ["windows"] }
+        {
+          "path": "bin/node",
+          "platforms": [
+            "macos",
+            "linux"
+          ]
+        },
+        {
+          "path": "node.exe",
+          "platforms": [
+            "windows"
+          ]
+        }
       ],
       "executables": [
-        { "id": "shell", "kind": "command", "command": "node" }
+        {
+          "id": "shell",
+          "kind": "command",
+          "command": "node"
+        }
       ],
       "version": {
-        "arguments": ["--version"],
+        "arguments": [
+          "--version"
+        ],
         "pattern": "v(\\d+(?:\\.\\d+)*)"
       },
       "homeLayouts": [
-        { "match": "*", "home": "." }
+        {
+          "match": "*",
+          "home": "."
+        }
       ],
       "discovery": [
-        { "root": { "kind": "home" }, "pattern": ".nvm/versions/node/*" },
-        { "root": { "kind": "home" }, "pattern": ".local/share/fnm/node-versions/*", "platforms": ["macos", "linux"] },
-        { "root": { "kind": "environment", "variable": "NVM_DIR" }, "pattern": "versions/node/*" },
-        { "root": { "kind": "environment", "variable": "FNM_DIR" }, "pattern": "node-versions/*" }
+        {
+          "root": {
+            "kind": "home"
+          },
+          "pattern": ".nvm/versions/node/*"
+        },
+        {
+          "root": {
+            "kind": "home"
+          },
+          "pattern": ".local/share/fnm/node-versions/*",
+          "platforms": [
+            "macos",
+            "linux"
+          ]
+        },
+        {
+          "root": {
+            "kind": "environment",
+            "variable": "NVM_DIR"
+          },
+          "pattern": "versions/node/*"
+        },
+        {
+          "root": {
+            "kind": "environment",
+            "variable": "FNM_DIR"
+          },
+          "pattern": "node-versions/*"
+        }
       ],
-      "commands": ["node"],
-      "launch": ["${executable}", "${runtimeArguments}", "${entry}", "${arguments}"]
+      "commands": [
+        "node"
+      ],
+      "launch": [
+        "${executable}",
+        "${runtimeArguments}",
+        "${entry}",
+        "${arguments}"
+      ]
     }
   ],
   "settings": [
@@ -216,12 +399,30 @@
       "effect": "immediate",
       "section": "TypeScript language server",
       "options": [
-        { "value": "shortest", "title": "Shortest" },
-        { "value": "shortest-relative", "title": "Shortest relative" },
-        { "value": "relative", "title": "Relative" },
-        { "value": "non-relative", "title": "Non-relative" },
-        { "value": "project-relative", "title": "Project relative" },
-        { "value": "absolute", "title": "Absolute" }
+        {
+          "value": "shortest",
+          "title": "Shortest"
+        },
+        {
+          "value": "shortest-relative",
+          "title": "Shortest relative"
+        },
+        {
+          "value": "relative",
+          "title": "Relative"
+        },
+        {
+          "value": "non-relative",
+          "title": "Non-relative"
+        },
+        {
+          "value": "project-relative",
+          "title": "Project relative"
+        },
+        {
+          "value": "absolute",
+          "title": "Absolute"
+        }
       ]
     },
     {
@@ -233,9 +434,18 @@
       "effect": "immediate",
       "section": "TypeScript language server",
       "options": [
-        { "value": "auto", "title": "Auto" },
-        { "value": "on", "title": "On" },
-        { "value": "off", "title": "Off" }
+        {
+          "value": "auto",
+          "title": "Auto"
+        },
+        {
+          "value": "on",
+          "title": "On"
+        },
+        {
+          "value": "off",
+          "title": "Off"
+        }
       ]
     },
     {
@@ -247,9 +457,18 @@
       "effect": "immediate",
       "section": "TypeScript language server",
       "options": [
-        { "value": "none", "title": "Off" },
-        { "value": "literals", "title": "Literals only" },
-        { "value": "all", "title": "All" }
+        {
+          "value": "none",
+          "title": "Off"
+        },
+        {
+          "value": "literals",
+          "title": "Literals only"
+        },
+        {
+          "value": "all",
+          "title": "All"
+        }
       ]
     },
     {
@@ -261,9 +480,18 @@
       "effect": "immediate",
       "section": "TypeScript language server",
       "options": [
-        { "value": "none", "title": "Off" },
-        { "value": "literals", "title": "Literals only" },
-        { "value": "all", "title": "All" }
+        {
+          "value": "none",
+          "title": "Off"
+        },
+        {
+          "value": "literals",
+          "title": "Literals only"
+        },
+        {
+          "value": "all",
+          "title": "All"
+        }
       ]
     }
   ],
@@ -271,25 +499,49 @@
     {
       "id": "node",
       "displayName": "npm scripts",
-      "icon": { "path": "icons/node.svg", "darkPath": "icons/node-dark.svg", "mode": "original" },
+      "icon": {
+        "path": "icons/node.svg",
+        "darkPath": "icons/node-dark.svg",
+        "mode": "original"
+      },
       "detection": {
-        "markers": ["package.json"],
+        "markers": [
+          "package.json"
+        ],
         "nesting": "outermost",
         "priority": 50
       },
       "invocation": {
         "executables": [
-          { "id": "selected", "kind": "setting", "settingID": "nodeExecutable" },
-          { "id": "toolchain", "kind": "toolchain", "toolchainID": "node" },
-          { "id": "runtime", "kind": "runtime", "runtime": "node" }
+          {
+            "id": "selected",
+            "kind": "setting",
+            "settingID": "nodeExecutable"
+          },
+          {
+            "id": "toolchain",
+            "kind": "toolchain",
+            "toolchainID": "node"
+          },
+          {
+            "id": "runtime",
+            "kind": "runtime",
+            "runtime": "node"
+          }
         ],
         "runtimeDependencies": [
-          { "id": "node", "minimumVersion": "20" }
+          {
+            "id": "node",
+            "minimumVersion": "20"
+          }
         ]
       },
       "model": {
         "source": "command",
-        "arguments": ["-e", "@@MODEL_JS@@"],
+        "arguments": [
+          "-e",
+          "@@MODEL_JS@@"
+        ],
         "decoder": "litheBuildModel",
         "executesProjectCode": false,
         "mayUseNetwork": false
@@ -300,8 +552,13 @@
           "displayName": "npm install",
           "description": "Install declared dependencies with npm.",
           "group": "lifecycle",
-          "scopes": ["workspace"],
-          "arguments": ["-e", "@@NPM_INSTALL_JS@@"]
+          "scopes": [
+            "workspace"
+          ],
+          "arguments": [
+            "-e",
+            "@@NPM_INSTALL_JS@@"
+          ]
         },
         {
           "id": "script",
@@ -309,13 +566,22 @@
           "description": "Template for scripts read from package.json.",
           "group": "other",
           "fromModel": true,
-          "arguments": ["-e", "@@NPM_RUN_JS@@", "${task.name}", "${userArguments}"]
+          "arguments": [
+            "-e",
+            "@@NPM_RUN_JS@@",
+            "${task.name}",
+            "${userArguments}"
+          ]
         }
       ],
       "run": [
         {
           "id": "script",
-          "fromTasks": { "templates": ["script"] },
+          "fromTasks": {
+            "templates": [
+              "script"
+            ]
+          },
           "name": "${task.name}"
         }
       ],
@@ -324,7 +590,11 @@
           "id": "node-file",
           "displayName": "Node file",
           "description": "Run a JavaScript or TypeScript entry file with Node.",
-          "icon": { "path": "icons/node-file.svg", "darkPath": "icons/node-file-dark.svg", "mode": "original" },
+          "icon": {
+            "path": "icons/node-file.svg",
+            "darkPath": "icons/node-file-dark.svg",
+            "mode": "original"
+          },
           "fields": [
             {
               "id": "file",
@@ -338,13 +608,21 @@
               "kind": "arguments"
             }
           ],
-          "arguments": ["${field:file}", "${field:nodeArguments}", "${userArguments}"]
+          "arguments": [
+            "${field:file}",
+            "${field:nodeArguments}",
+            "${userArguments}"
+          ]
         },
         {
           "id": "npm-script",
           "displayName": "npm script",
           "description": "Run a script from package.json with npm.",
-          "icon": { "path": "icons/node-script.svg", "darkPath": "icons/node-script-dark.svg", "mode": "original" },
+          "icon": {
+            "path": "icons/node-script.svg",
+            "darkPath": "icons/node-script-dark.svg",
+            "mode": "original"
+          },
           "execution": "task",
           "fields": [
             {
@@ -355,7 +633,12 @@
               "required": true
             }
           ],
-          "arguments": ["-e", "@@NPM_RUN_JS@@", "${field:script}", "${userArguments}"]
+          "arguments": [
+            "-e",
+            "@@NPM_RUN_JS@@",
+            "${field:script}",
+            "${userArguments}"
+          ]
         }
       ],
       "sync": {
@@ -370,7 +653,9 @@
         ]
       },
       "layout": {
-        "hiddenDirectoryNames": ["node_modules"]
+        "hiddenDirectoryNames": [
+          "node_modules"
+        ]
       }
     }
   ]
