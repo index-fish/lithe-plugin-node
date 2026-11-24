@@ -7,23 +7,16 @@
       "author": "index-fish",
       "repository": "https://github.com/index-fish/lithe-plugin-node",
       "homepage": "https://github.com/index-fish/lithe-plugin-node#readme",
-      "description": "JavaScript / TypeScript (JSX/TSX) and XML support: TypeScript language server, XML syntax diagnostics, npm scripts build/run entries and Node toolchain. Requires Node.js 20 or newer on PATH.",
+      "description": "JavaScript / TypeScript (JSX/TSX) language services via bundled typescript-language-server, plus npm scripts build tasks and run entries. Requires Node.js 20 or newer.",
       "localizedDescriptions": {
-        "zh-Hans": "JavaScript / TypeScript（JSX/TSX）与 XML 支持：TypeScript 语言服务、XML 语法诊断、npm scripts 构建与运行入口，以及 Node 工具链。需要 PATH 上有 Node.js 20 或更高版本。"
+        "zh-Hans": "JavaScript / TypeScript（JSX/TSX）语言服务，内置 typescript-language-server，并把 npm scripts 暴露为构建任务和 Run 入口。需要 Node.js 20 或更高版本。"
       },
-      "tags": [
-        "language",
-        "javascript",
-        "typescript",
-        "node",
-        "xml",
-        "lsp"
-      ],
+      "tags": ["language", "javascript", "typescript", "node", "lsp"],
       "license": "Apache-2.0",
-      "icon": "https://raw.githubusercontent.com/index-fish/lithe-plugin-node/887ecd328c8bdc341b412006092292030d1fb0d5/io.github.lithe-idea.node-support/icons/node.svg",
+      "icon": "https://raw.githubusercontent.com/index-fish/lithe-plugin-node/e9777e3470f6b9bca534fcde3cd3e11eb69addca/io.github.lithe-idea.node-support/icons/node.svg",
       "versions": [
         {
-          "version": "0.1.5",
+          "version": "0.1.6",
           "pluginAPIVersion": 0,
           "requires": {
             "buildSystems": 0,
@@ -33,17 +26,46 @@
             "settings": 0,
             "toolDefinitions": 0
           },
-          "releaseDate": "2026-11-23",
+          "releaseDate": "2026-11-24",
           "downloads": [
             {
-              "platforms": [
-                "darwin-arm64",
-                "darwin-x64",
-                "windows-arm64",
-                "windows-x64"
-              ],
-              "downloadURL": "https://github.com/index-fish/lithe-plugin-node/releases/download/v0.1.5/io.github.lithe-idea.node-support-0.1.5.zip",
-              "sha256": "a5e8e1ce96f21102b13eb832f0e4e5c92a98c0e3b46848e191a99840f3f28d34"
+              "platforms": ["darwin-arm64", "darwin-x64", "windows-arm64", "windows-x64"],
+              "downloadURL": "https://github.com/index-fish/lithe-plugin-node/releases/download/node-v0.1.6/io.github.lithe-idea.node-support-0.1.6.zip",
+              "sha256": "3b8d59a38e184b5721e8de1e4d3b41e8184afba164eb7547b4a15d60c814fb21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "io.github.lithe-idea.xml-support",
+      "name": "XML Support (LemMinX)",
+      "author": "index-fish",
+      "repository": "https://github.com/index-fish/lithe-plugin-node",
+      "homepage": "https://github.com/index-fish/lithe-plugin-node#readme",
+      "description": "XML / XSD / XSL / SVG language support via Eclipse LemMinX: syntax and XSD validation, completion, formatting, hover, document symbols, folding, rename and document links. Requires Java 11 or newer, discovered via Lithe Toolchains.",
+      "localizedDescriptions": {
+        "zh-Hans": "基于 Eclipse LemMinX 的 XML / XSD / XSL / SVG 语言支持：语法与 XSD 校验、补全、格式化、悬停、文档大纲、折叠、重命名与文档链接。需要 Java 11 或更高版本，由 Lithe 工具链自动发现。"
+      },
+      "tags": ["language", "xml", "xsd", "xsl", "svg", "lsp"],
+      "license": "EPL-2.0",
+      "icon": "https://raw.githubusercontent.com/index-fish/lithe-plugin-node/e9777e3470f6b9bca534fcde3cd3e11eb69addca/io.github.lithe-idea.xml-support/icons/xml.svg",
+      "versions": [
+        {
+          "version": "0.1.0",
+          "pluginAPIVersion": 0,
+          "requires": {
+            "languages": 0,
+            "languageServers": 0,
+            "settings": 0,
+            "toolDefinitions": 0
+          },
+          "releaseDate": "2026-11-24",
+          "downloads": [
+            {
+              "platforms": ["darwin-arm64", "darwin-x64", "windows-arm64", "windows-x64", "linux-x64", "linux-arm64"],
+              "downloadURL": "https://github.com/index-fish/lithe-plugin-node/releases/download/xml-v0.1.0/io.github.lithe-idea.xml-support-0.1.0.zip",
+              "sha256": "9a233bd8bfd28af176190a10b7d2c4752d8b4cd6e21ab340722473e584e4f872"
             }
           ]
         }
