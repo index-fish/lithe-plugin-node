@@ -38,7 +38,7 @@
 
 ## SQL Support（Lithe SQL）
 
-当前版本：`0.1.0`。
+当前版本：`0.1.1`。
 
 - 语言：`sql`、`ddl`、`dml`、`mysql`、`pgsql`、`sqlite`、`sqlite3`。
 - 语言服务：包内自带零依赖 Node 服务器 `language-server/server.mjs`，不下载任何东西、不执行工作区代码、不连数据库。
@@ -77,7 +77,7 @@ npm run package    # 产出 dist/<plugin-id>-<version>.zip 和 sha256
 ```bash
 git tag node-v0.1.10 && git push origin node-v0.1.10  # 只发 Node 插件
 git tag xml-v0.1.0  && git push origin xml-v0.1.0    # 只发 XML 插件
-git tag sql-v0.1.0  && git push origin sql-v0.1.0    # 只发 SQL 插件
+git tag sql-v0.1.1  && git push origin sql-v0.1.1    # 只发 SQL 插件
 ```
 
 `.github/workflows/release.yml` 校验 tag 与版本一致，构建、测试、打包后创建对应 Release 并上传 ZIP 与 sha256。索引 `lithe-plugin-index.json` 在发布后手工更新到新的版本与 GitHub 权威 SHA-256。

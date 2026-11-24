@@ -12,8 +12,11 @@ const manifest = JSON.parse(generated);
 JSON.parse(readFileSync(join(dir, "l10n", "zh-Hans.json"), "utf8"));
 
 if (manifest.id !== "io.github.lithe-idea.sql-support") throw new Error("unexpected SQL plugin id");
-if (manifest.version !== "0.1.0") throw new Error("unexpected SQL plugin version");
+if (manifest.version !== "0.1.1") throw new Error("unexpected SQL plugin version");
 if (generated.includes("@@")) throw new Error("unreplaced placeholder in SQL plugin.json");
+if ("settings" in manifest.requires && !(manifest.settings?.length || manifest.settingActions?.length)) {
+  throw new Error("requires.settings must be omitted when no settings section is declared");
+}
 if (!manifest.languages.some((l) => l.id === "sql")) throw new Error("SQL language declaration missing");
 if (!manifest.activationEvents.includes("onLanguage:sql")) throw new Error("SQL activation event missing");
 

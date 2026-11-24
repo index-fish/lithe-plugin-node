@@ -2,13 +2,12 @@
   "schemaVersion": 0,
   "id": "io.github.lithe-idea.sql-support",
   "displayName": "SQL Support (Lithe SQL)",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "pluginAPIVersion": 0,
   "repository": "https://github.com/index-fish/lithe-plugin-node",
   "requires": {
     "languages": 0,
     "languageServers": 1,
-    "settings": 0,
     "toolDefinitions": 0
   },
   "requiresTools": [
