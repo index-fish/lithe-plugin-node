@@ -22,6 +22,31 @@
       "icon": "https://raw.githubusercontent.com/index-fish/lithe-plugin-node/e9777e3470f6b9bca534fcde3cd3e11eb69addca/io.github.lithe-idea.node-support/icons/node.svg",
       "versions": [
         {
+          "version": "0.1.9",
+          "pluginAPIVersion": 0,
+          "requires": {
+            "buildSystems": 0,
+            "languageServers": 1,
+            "languages": 0,
+            "runConfigurationTypes": 0,
+            "settings": 0,
+            "toolDefinitions": 0
+          },
+          "releaseDate": "2026-11-24",
+          "downloads": [
+            {
+              "platforms": [
+                "darwin-arm64",
+                "darwin-x64",
+                "windows-arm64",
+                "windows-x64"
+              ],
+              "downloadURL": "https://github.com/index-fish/lithe-plugin-node/releases/download/node-v0.1.9/io.github.lithe-idea.node-support-0.1.9.zip",
+              "sha256": "b3ec32350441b00779be3b5aaba04266a5dc6d31eabc1f2b47a8b3c1d1b6643d"
+            }
+          ]
+        },
+        {
           "version": "0.1.8",
           "pluginAPIVersion": 0,
           "requires": {
