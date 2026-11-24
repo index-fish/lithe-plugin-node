@@ -245,6 +245,50 @@
           ]
         }
       ]
+    },
+    {
+      "id": "io.github.lithe-idea.sql-support",
+      "name": "SQL Support (Lithe SQL)",
+      "author": "index-fish",
+      "repository": "https://github.com/index-fish/lithe-plugin-node",
+      "homepage": "https://github.com/index-fish/lithe-plugin-node#readme",
+      "description": "Offline SQL language support via a zero-dependency Node language server: prefix-filtered keyword/function/type completion, table and column completion from the open document, hover, formatting, document symbols and syntax diagnostics. Requires Node.js 20 or newer.",
+      "localizedDescriptions": {
+        "zh-Hans": "基于零依赖 Node 语言服务器的离线 SQL 语言支持：按前缀过滤的关键字/函数/类型补全、基于当前文档的表名与列名补全、悬停、格式化、文档大纲与语法诊断。需要 Node.js 20 或更高版本。"
+      },
+      "tags": [
+        "language",
+        "sql",
+        "lsp",
+        "completion"
+      ],
+      "license": "Apache-2.0",
+      "icon": "https://raw.githubusercontent.com/index-fish/lithe-plugin-node/HEAD/io.github.lithe-idea.sql-support/icons/sql.svg",
+      "versions": [
+        {
+          "version": "0.1.0",
+          "pluginAPIVersion": 0,
+          "requires": {
+            "languages": 0,
+            "languageServers": 1,
+            "settings": 0,
+            "toolDefinitions": 0
+          },
+          "releaseDate": "2026-11-24",
+          "downloads": [
+            {
+              "platforms": [
+                "darwin-arm64",
+                "darwin-x64",
+                "windows-arm64",
+                "windows-x64"
+              ],
+              "downloadURL": "https://github.com/index-fish/lithe-plugin-node/releases/download/sql-v0.1.0/io.github.lithe-idea.sql-support-0.1.0.zip",
+              "sha256": "925cb04d95e9e1660e3a44957e6bba0b53b1a518e39bbf42cd154746533ea0ff"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
