@@ -1,5 +1,8 @@
 node_modules/
 io.github.lithe-idea.node-support/language-server/licenses/
+io.github.lithe-idea.xml-support/language-server/*.jar
+io.github.lithe-idea.xml-support/language-server/LICENSE
+io.github.lithe-idea.xml-support/language-server/versions.json
 .build/
 dist/
 *.zip

@@ -5,23 +5,29 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const packageDir = join(root, "io.github.lithe-idea.node-support");
-const manifest = JSON.parse(readFileSync(join(packageDir, "plugin.json"), "utf8"));
-const stage = join(root, ".build", "package", manifest.id);
+const packageDirs = [
+  join(root, "io.github.lithe-idea.node-support"),
+  join(root, "io.github.lithe-idea.xml-support"),
+];
+const stageRoot = join(root, ".build", "package");
 const dist = join(root, "dist");
-rmSync(stage, { recursive: true, force: true });
-mkdirSync(stage, { recursive: true });
+rmSync(stageRoot, { recursive: true, force: true });
+mkdirSync(stageRoot, { recursive: true });
 mkdirSync(dist, { recursive: true });
-for (const name of ["plugin.json", "l10n", "icons", "scripts", "language-server"]) {
-  cpSync(join(packageDir, name), join(stage, name), { recursive: true });
+
+for (const packageDir of packageDirs) {
+  const manifest = JSON.parse(readFileSync(join(packageDir, "plugin.json"), "utf8"));
+  const stage = join(stageRoot, manifest.id);
+  mkdirSync(stage, { recursive: true });
+  for (const name of ["plugin.json", "l10n", "icons", "scripts", "language-server"]) {
+    const source = join(packageDir, name);
+    if (existsSync(source)) cpSync(source, join(stage, name), { recursive: true });
+  }
+  const archive = join(dist, `${manifest.id}-${manifest.version}.zip`);
+  rmSync(archive, { force: true });
+  const zip = spawnSync("zip", ["-qr", archive, manifest.id], { cwd: resolve(stageRoot), stdio: "inherit" });
+  if (zip.status !== 0) throw new Error("zip failed");
+  const sha256 = createHash("sha256").update(readFileSync(archive)).digest("hex");
+  writeFileSync(`${archive}.sha256`, `${sha256}  ${archive.split("/").pop()}\n`);
+  process.stdout.write(`${archive}\n${sha256}\n`);
 }
-const archive = join(dist, `${manifest.id}-${manifest.version}.zip`);
-rmSync(archive, { force: true });
-const zip = spawnSync("zip", ["-qr", archive, manifest.id], { cwd: resolve(stage, ".."), stdio: "inherit" });
-if (zip.status !== 0) throw new Error("zip failed");
-const sha256 = createHash("sha256").update(readFileSync(archive)).digest("hex");
-writeFileSync(`${archive}.sha256`, `${sha256}  ${archive.split("/").pop()}\n`);
-if (!existsSync(join(stage, "language-server", "versions.json"))) {
-  process.stdout.write("warning: language-server/versions.json missing; run scripts/build-language-server.mjs first\n");
-}
-process.stdout.write(`${archive}\n${sha256}\n`);

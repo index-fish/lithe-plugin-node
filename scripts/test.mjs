@@ -24,9 +24,9 @@ const pinned = JSON.parse(readFileSync(join(packageDir, "language-server", "pack
 if (
   pinned.dependencies.typescript !== "5.9.3" ||
   pinned.dependencies["typescript-language-server"] !== "5.1.0" ||
-  pinned.dependencies["@xml-tools/language-server"] !== "1.1.2"
+  "@xml-tools/language-server" in pinned.dependencies
 ) {
-  throw new Error("language server versions must stay pinned");
+  throw new Error("language server versions must stay pinned (XML server moved to its own plugin)");
 }
 for (const [name, code] of Object.entries(js)) {
   new Function(code);
@@ -70,8 +70,8 @@ if (!model.tasks.every((task) => task.template === "script")) throw new Error("s
 if (build.id !== "node" || !build.run?.[0]?.fromTasks?.templates?.includes("script")) {
   throw new Error("npm script run entry missing");
 }
-if (manifest.languageServers.length !== 3) {
-  throw new Error("JavaScript, TypeScript and XML servers are all required");
+if (manifest.languageServers.length !== 2) {
+  throw new Error("JavaScript and TypeScript servers are both required");
 }
 for (const server of manifest.languageServers) {
   if (server.launch.kind !== "runtime") throw new Error(`${server.languageID} must use a runtime launch`);
@@ -86,18 +86,11 @@ for (const server of manifest.languageServers) {
     throw new Error(`${server.languageID} must not repeat the launch runtime as a runtime dependency`);
   }
 }
-const xmlServer = manifest.languageServers.find((server) => server.languageID === "xml");
-if (!xmlServer) throw new Error("XML language server missing");
-if (xmlServer.launch.entry !== "language-server/node_modules/@xml-tools/language-server/lib/server.js") {
-  throw new Error("XML language server entry is stale");
+// XML lives in its own plugin now.
+if (manifest.languages.some((language) => language.id === "xml")) {
+  throw new Error("XML language must be removed from the Node plugin");
 }
-if (xmlServer.executesProjectCode !== false) {
-  throw new Error("XML server must declare executesProjectCode: false");
+if (manifest.activationEvents.includes("onLanguage:xml")) {
+  throw new Error("XML activation event must be removed from the Node plugin");
 }
-if (!manifest.languages.some((language) => language.id === "xml")) {
-  throw new Error("XML language declaration missing");
-}
-if (!manifest.activationEvents.includes("onLanguage:xml")) {
-  throw new Error("XML activation event missing");
-}
-process.stdout.write("plugin skeleton checks passed\n");
+process.stdout.write("node plugin skeleton checks passed\n");

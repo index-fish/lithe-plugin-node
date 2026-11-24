@@ -1,21 +1,34 @@
 # 功能矩阵
 
-最近验证：2026-11-23，本地骨架测试、XML LSP stdio 握手与官方 schema/规则复核。宿主端到端未执行。
+两个插件均为声明式（无后端进程）。最近更新：2026-11-24。
 
-| 能力 | macOS | Windows | Linux | 证据 / 说明 |
-| --- | --- | --- | --- | --- |
-| JS / TS 语法高亮 | 由宿主提供 | 由宿主提供 | 由宿主提供 | 宿主内置 `JavaScript*.tmLanguage.json` / `TypeScript*.tmLanguage.json`；非插件能力 |
-| JS / TS 补全、跳转、诊断 | 未验证 | 未验证 | 未验证 | `languageServers[]` 声明 tsserver；需真实宿主安装后验证 |
-| XML 文件识别与注释/括号配置 | 未验证 | 未验证 | 未验证 | `languages[id=xml]`，覆盖 `xml`/`xsd`/`xsl`/`xslt`/`svg` 与常见 XML 文件名 |
-| XML 语法诊断 | 未验证 | 未验证 | 未验证 | `@xml-tools/language-server@1.1.2` 通过 Node runtime 启动，stdio 握手本地已验证；Lithe 桌面端呈现待真机确认 |
-| XML XSD 补全 / 跳转 / 格式化 | 不支持 | 不支持 | 不支持 | 当前服务器只提供语法诊断；需换更强的 XML 服务 |
-| Node 工具发现（PATH / nvm / fnm） | 未验证 | 未验证 | 未验证 | `toolDefinitions[node]` + `scripts/test.mjs` 只做静态检查 |
-| npm script 模型解析 | 已验证 | 已验证 | 已验证 | `scripts/test.mjs` 在 fixture 上执行模型脚本，得到 2 个 target / 2 个 task |
-| npm script 自动 Run 入口 | 未验证 | 未验证 | 未验证 | `buildSystems[0].run.fromTasks.templates = ["script"]` |
-| npm install 任务 | 未验证 | 未验证 | 未验证 | 声明式任务；执行 npm 的真实行为未测 |
-| Node 文件运行配置 | 未验证 | 未验证 | 未验证 | `runConfigurationTypes[node-file]` |
-| npm 脚本运行配置 | 未验证 | 未验证 | 未验证 | `runConfigurationTypes[npm-script]` |
-| 中英文文案 | 已验证 | 已验证 | 已验证 | `plugin-l10n.schema.json` 校验通过；宿主显示未验证 |
-| 日志接线 | 未验证 | 未验证 | 未验证 | 无后端；声明式贡献由宿主观察，规格见 README |
-| 断点调试 | 不支持 | 不支持 | 不支持 | Phase 3 |
-| pnpm / yarn / bun 自动切换 | 不支持 | 不支持 | 不支持 | Phase 2 |
+## Node.js Support（0.1.6）
+
+| 能力 | 清单声明 | 本机验证 | 说明 |
+| --- | --- | --- | --- |
+| JS/TS 语法高亮 | 宿主内置 | 是 | 由宿主 TextMate grammar 提供，不算插件能力 |
+| JS/TS 补全、跳转、诊断 | 是 | 是 | tsserver 在宿主日志中有 `lsp.startServer` + running 会话证据（`main.action.ts`） |
+| npm scripts 构建模型 | 是 | 是 | 本地 fixture 解析出 2 个 target / 2 个 task |
+| npm script Run 入口 | 是 | 否 | fromTasks 入口不重复 arguments（已修宿主校验错误） |
+| Node 工具发现 | 是 | 部分 | PATH / nvm / fnm 声明完成，宿主端逐项未点验 |
+| 设置项（6 项） | 是 | 否 | 声明完成，未逐项在宿主 UI 验证 |
+| XML 支持 | 否 | — | 已拆到独立 XML Support 插件 |
+
+## XML Support（0.1.0）
+
+| 能力 | 清单声明 | 本机验证 | 说明 |
+| --- | --- | --- | --- |
+| XML/XSD/XSL/SVG 识别 | 是 | 是 | 本地骨架测试 |
+| 语法诊断 | 是 | 是 | LemMinX stdio 握手 + 错误 XML 诊断通过 |
+| XSD 校验 | 是 | 是 | LemMinX 加载真实 note.xsd 验证通过 |
+| 元素/属性补全 | 是 | 是 | 在 `<` 处补全返回 XSD 里的 `from` 元素 |
+| 格式化 | 是 | 是 | `documentFormattingProvider: true` |
+| 悬停 / 文档符号 / 折叠 / 重命名 | 是 | 部分 | 能力声明为 true；UI 呈现未逐项点验 |
+| definition / 文档链接 | 是 | 否 | `definitionProvider: true`，实际是文档链接（打开 schema），不是元素到 XSD 声明的跳转 |
+| Java 工具发现 | 是 | 待真机 | 本机有 Java 11/17/25；宿主 Toolchains 解析与 LSP 启动待装后验证 |
+
+## 明确不支持
+
+- 断点调试（无 DAP 适配器）。
+- XML 元素到 XSD 声明的 go-to-definition（LemMinX 不提供该粒度）。
+- Node 插件的 ESLint / Prettier / Jest / Vitest，pnpm / yarn / bun 自动切换。

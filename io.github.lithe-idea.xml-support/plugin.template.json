@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 0,
+  "id": "io.github.lithe-idea.xml-support",
+  "displayName": "XML Support (LemMinX)",
+  "version": "0.1.0",
+  "pluginAPIVersion": 0,
+  "repository": "https://github.com/index-fish/lithe-plugin-node",
+  "requires": {
+    "languages": 0,
+    "languageServers": 0,
+    "settings": 0,
+    "toolDefinitions": 0
+  },
+  "requiresTools": [
+    "io.github.lithe-idea.xml-support:java"
+  ],
+  "vendor": {
+    "id": "io.github.lithe-idea",
+    "displayName": "Lithe Community",
+    "signatureRequirement": "none"
+  },
+  "permissions": [
+    "languageServer.launch"
+  ],
+  "activationEvents": [
+    "onLanguage:xml"
+  ],
+  "languages": [
+    {
+      "id": "xml",
+      "displayName": "XML",
+      "fileExtensions": ["xml", "xsd", "xsl", "xslt", "svg"],
+      "fileNames": ["pom.xml", "web.xml", "persistence.xml", "applicationContext.xml"],
+      "configuration": {
+        "blockComment": ["<!--", "-->"],
+        "brackets": [["<", ">"]],
+        "autoClosingPairs": [["<", ">"], ["\"", "\""], ["'", "'"]]
+      }
+    }
+  ],
+  "languageServers": [
+    {
+      "languageID": "xml",
+      "languageIdentifier": "xml",
+      "launch": {
+        "kind": "runtime",
+        "tool": "io.github.lithe-idea.xml-support:java",
+        "minimumVersion": "11",
+        "runtimeArguments": ["-Xmx${setting:jvmHeapMB}m"],
+        "entry": "language-server/org.eclipse.lemminx-0.31.2-uber.jar"
+      },
+      "arguments": ["--stdio"]
+    }
+  ],
+  "toolDefinitions": [
+    {
+      "id": "io.github.lithe-idea.xml-support:java",
+      "displayName": "JDK (for LemMinX)",
+      "icon": { "path": "icons/xml.svg", "darkPath": "icons/xml-dark.svg", "mode": "original" },
+      "executableLayouts": [
+        { "path": "bin/java", "platforms": ["macos", "linux"] },
+        { "path": "bin/java.exe", "platforms": ["windows"] }
+      ],
+      "executables": [
+        { "id": "pinned", "kind": "setting", "settingID": "executable", "layer": "project" },
+        { "id": "default", "kind": "setting", "settingID": "executable", "layer": "global" },
+        { "id": "home", "kind": "environment", "variable": "JAVA_HOME", "path": "bin/java", "platforms": ["macos", "linux"] },
+        { "id": "home-windows", "kind": "environment", "variable": "JAVA_HOME", "path": "bin/java.exe", "platforms": ["windows"] },
+        { "id": "shell", "kind": "command", "command": "java" },
+        { "id": "detected", "kind": "toolchain", "scope": "installed" }
+      ],
+      "version": {
+        "arguments": ["-version"],
+        "pattern": "version \"(?:1\\.)?(\\d+(?:\\.\\d+)*)"
+      },
+      "homeLayouts": [
+        { "match": "*.jdk", "home": "Contents/Home", "platforms": ["macos"] },
+        { "match": "*", "home": "." }
+      ],
+      "discovery": [
+        { "root": { "kind": "absolute", "path": "/Library/Java/JavaVirtualMachines" }, "pattern": "*.jdk", "platforms": ["macos"] },
+        { "root": { "kind": "home" }, "pattern": "Library/Java/JavaVirtualMachines/*.jdk", "platforms": ["macos"] },
+        { "root": { "kind": "absolute", "path": "/usr/lib/jvm" }, "pattern": "*", "platforms": ["linux"] }
+      ],
+      "homeVariable": "JAVA_HOME",
+      "commands": ["java"],
+      "launch": ["${executable}", "${runtimeArguments}", "-jar", "${entry}", "${arguments}"]
+    }
+  ],
+  "settings": [
+    {
+      "id": "jvmHeapMB",
+      "type": "integer",
+      "title": "XML server memory limit",
+      "description": "Maximum JVM heap passed to the LemMinX XML language server.",
+      "default": 512,
+      "minimum": 256,
+      "maximum": 4096,
+      "unit": "MB",
+      "effect": "reload",
+      "section": "XML language server"
+    }
+  ]
+}

@@ -14,7 +14,6 @@ if (install.status !== 0) process.exit(install.status ?? 1);
 const entries = {
   "typescript-language-server": "typescript-language-server/lib/cli.mjs",
   typescript: "typescript/lib/typescript.js",
-  "@xml-tools/language-server": "@xml-tools/language-server/lib/server.js",
 };
 for (const [name, relative] of Object.entries(entries)) {
   if (!existsSync(join(dir, "node_modules", relative))) {
@@ -25,7 +24,6 @@ for (const [name, relative] of Object.entries(entries)) {
 const licenses = [
   ["typescript", "typescript/LICENSE.txt"],
   ["typescript-language-server", "typescript-language-server/LICENSE"],
-  ["@xml-tools/language-server", "@xml-tools/language-server/LICENSE"],
 ];
 const licenseDir = join(dir, "licenses");
 mkdirSync(licenseDir, { recursive: true });
@@ -40,7 +38,6 @@ const versionOf = (name) =>
 const versions = {
   "typescript-language-server": versionOf("typescript-language-server"),
   typescript: versionOf("typescript"),
-  "@xml-tools/language-server": versionOf("@xml-tools/language-server"),
 };
 writeFileSync(
   join(dir, "versions.json"),
@@ -56,6 +53,5 @@ writeFileSync(
 );
 process.stdout.write(
   `bundled typescript-language-server ${versions["typescript-language-server"]}, ` +
-    `typescript ${versions.typescript}, ` +
-    `@xml-tools/language-server ${versions["@xml-tools/language-server"]}\n`,
+    `typescript ${versions.typescript}\n`,
 );

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 0,
   "id": "io.github.lithe-idea.node-support",
-  "displayName": "Node.js / XML Support (Preview)",
-  "version": "0.1.5",
+  "displayName": "Node.js Support (Preview)",
+  "version": "0.1.6",
   "pluginAPIVersion": 0,
   "repository": "https://github.com/index-fish/lithe-plugin-node",
   "requires": {
@@ -28,8 +28,7 @@
   "activationEvents": [
     "onBuildSystem:node",
     "onLanguage:javascript",
-    "onLanguage:typescript",
-    "onLanguage:xml"
+    "onLanguage:typescript"
   ],
   "languages": [
     {
@@ -80,17 +79,6 @@
         "blockComment": ["/*", "*/"],
         "brackets": [["{", "}"], ["[", "]"], ["(", ")"], ["`", "`"]],
         "autoClosingPairs": [["{", "}"], ["[", "]"], ["(", ")"], ["\"", "\""], ["'", "'"], ["`", "`"]]
-      }
-    },
-    {
-      "id": "xml",
-      "displayName": "XML",
-      "fileExtensions": ["xml", "xsd", "xsl", "xslt", "svg"],
-      "fileNames": ["pom.xml", "web.xml", "persistence.xml"],
-      "configuration": {
-        "blockComment": ["<!--", "-->"],
-        "brackets": [["<", ">"]],
-        "autoClosingPairs": [["<", ">"], ["\"", "\""], ["'", "'"]]
       }
     }
   ],
@@ -155,21 +143,6 @@
             "variableTypes": { "enabled": "${setting:variableTypes}" }
           }
         }
-      }
-    },
-    {
-      "languageID": "xml",
-      "languageIdentifier": "xml",
-      "launch": {
-        "kind": "runtime",
-        "tool": "node",
-        "minimumVersion": "20",
-        "entry": "language-server/node_modules/@xml-tools/language-server/lib/server.js"
-      },
-      "arguments": ["--stdio"],
-      "executesProjectCode": false,
-      "initializationOptions": {
-        "consumer": "Lithe"
       }
     }
   ],

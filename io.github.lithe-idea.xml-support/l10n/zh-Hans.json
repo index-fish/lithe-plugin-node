@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Lithe-IDEA/Lithe-core-rust/main/shared/plugins/contract/v1/plugin-l10n.schema.json",
+  "sections": {
+    "XML language server": "XML 语言服务"
+  },
+  "settings": {
+    "jvmHeapMB": {
+      "title": "XML 服务内存上限",
+      "description": "传给 LemMinX XML 语言服务的 JVM 最大堆内存。"
+    }
+  }
+}

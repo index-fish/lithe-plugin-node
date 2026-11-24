@@ -2,12 +2,10 @@
   "builtWithNode": "v22.22.2",
   "packages": {
     "typescript-language-server": "5.1.0",
-    "typescript": "5.9.3",
-    "@xml-tools/language-server": "1.1.2"
+    "typescript": "5.9.3"
   },
   "entries": {
     "typescript-language-server": "typescript-language-server/lib/cli.mjs",
-    "typescript": "typescript/lib/typescript.js",
-    "@xml-tools/language-server": "@xml-tools/language-server/lib/server.js"
+    "typescript": "typescript/lib/typescript.js"
   }
 }
