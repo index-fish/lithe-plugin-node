@@ -44,7 +44,7 @@ jobs:
             node) dir=io.github.lithe-idea.node-support ;;
             xml)  dir=io.github.lithe-idea.xml-support ;;
           esac
-          version="$(node -p "require('./'"$dir"'/plugin.json').version")"
+          version="$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['version'])" "$dir/plugin.json")"
           want="${{ steps.target.outputs.version }}"
           if [ "$want" != "$version" ]; then
             echo "Tag ${GITHUB_REF_NAME} wants ${want}, plugin version is ${version}" >&2
@@ -78,8 +78,9 @@ jobs:
               notes="XML/XSD/XSL/SVG support via Eclipse LemMinX: syntax + XSD validation, completion, formatting, hover, document symbols, folding, rename, document links. Requires Java 11+ (discovered via Toolchains)."
               ;;
           esac
-          zip=$(find dist -maxdepth 1 -name "${dir}-*.zip" | head -1)
-          if [ -z "$zip" ]; then echo "No ZIP for $dir" >&2; exit 1; fi
+          version="$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['version'])" "$dir/plugin.json")"
+          zip="dist/${dir}-${version}.zip"
+          if [ ! -f "$zip" ]; then echo "No ZIP for $dir version $version" >&2; exit 1; fi
           assets="$zip ${zip}.sha256"
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             echo "Release $GITHUB_REF_NAME exists; uploading assets only"
