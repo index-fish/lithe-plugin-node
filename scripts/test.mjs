@@ -98,6 +98,13 @@ for (const server of manifest.languageServers) {
   if (tsPath !== "${pluginDir}/language-server/node_modules/typescript/lib/tsserver.js") {
     throw new Error(`${server.languageID} must pin the bundled tsserver via initializationOptions.tsserver.path`);
   }
+  // In projects whose files import unresolved bare modules (e.g. svr-api/*),
+  // tsserver's global identifier completion scans every module export and hangs
+  // indefinitely. Disabling module-export completions keeps identifier/keyword
+  // completion fast (1805 items in ~50ms on a 223-file project).
+  if (server.initializationOptions?.preferences?.includeCompletionsForModuleExports !== false) {
+    throw new Error(`${server.languageID} must disable includeCompletionsForModuleExports to avoid completion hangs`);
+  }
   if (!existsSync(join(packageDir, "language-server/node_modules/typescript/lib/tsserver.js"))) {
     throw new Error("bundled tsserver.js missing; run npm run build:ls");
   }

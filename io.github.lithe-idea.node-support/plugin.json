@@ -2,7 +2,7 @@
   "schemaVersion": 0,
   "id": "io.github.lithe-idea.node-support",
   "displayName": "Node.js Support (Preview)",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "pluginAPIVersion": 0,
   "repository": "https://github.com/index-fish/lithe-plugin-node",
   "requires": {
@@ -100,6 +100,9 @@
         "tsserver": {
           "path": "${pluginDir}/language-server/node_modules/typescript/lib/tsserver.js",
           "logDirectory": "${logDir}"
+        },
+        "preferences": {
+          "includeCompletionsForModuleExports": false
         }
       },
       "workspaceConfiguration": {
@@ -132,6 +135,9 @@
         "tsserver": {
           "path": "${pluginDir}/language-server/node_modules/typescript/lib/tsserver.js",
           "logDirectory": "${logDir}"
+        },
+        "preferences": {
+          "includeCompletionsForModuleExports": false
         }
       },
       "workspaceConfiguration": {
