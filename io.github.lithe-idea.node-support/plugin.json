@@ -2,7 +2,7 @@
   "schemaVersion": 0,
   "id": "io.github.lithe-idea.node-support",
   "displayName": "Node.js Support (Preview)",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "pluginAPIVersion": 0,
   "repository": "https://github.com/index-fish/lithe-plugin-node",
   "requires": {
@@ -109,7 +109,8 @@
         "javascript": {
           "preferences": {
             "importModuleSpecifier": "${setting:importModuleSpecifier}",
-            "includePackageJsonAutoImports": "${setting:includePackageJsonAutoImports}"
+            "includePackageJsonAutoImports": "${setting:includePackageJsonAutoImports}",
+            "includeCompletionsForModuleExports": false
           },
           "inlayHints": {
             "parameterNames": { "enabled": "${setting:parameterHints}" },
@@ -144,7 +145,8 @@
         "typescript": {
           "preferences": {
             "importModuleSpecifier": "${setting:importModuleSpecifier}",
-            "includePackageJsonAutoImports": "${setting:includePackageJsonAutoImports}"
+            "includePackageJsonAutoImports": "${setting:includePackageJsonAutoImports}",
+            "includeCompletionsForModuleExports": false
           },
           "inlayHints": {
             "parameterNames": { "enabled": "${setting:parameterHints}" },

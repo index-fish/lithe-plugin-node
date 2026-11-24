@@ -105,6 +105,12 @@ for (const server of manifest.languageServers) {
   if (server.initializationOptions?.preferences?.includeCompletionsForModuleExports !== false) {
     throw new Error(`${server.languageID} must disable includeCompletionsForModuleExports to avoid completion hangs`);
   }
+  // Belt and suspenders: also carry the preference in workspaceConfiguration,
+  // so servers that re-read config via didChangeConfiguration keep it disabled.
+  const wsPrefs = server.workspaceConfiguration?.[server.languageID]?.preferences;
+  if (wsPrefs?.includeCompletionsForModuleExports !== false) {
+    throw new Error(`${server.languageID} workspaceConfiguration.preferences must also disable includeCompletionsForModuleExports`);
+  }
   if (!existsSync(join(packageDir, "language-server/node_modules/typescript/lib/tsserver.js"))) {
     throw new Error("bundled tsserver.js missing; run npm run build:ls");
   }
